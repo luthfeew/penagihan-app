@@ -12,7 +12,7 @@
         @if ($action != 'lihat')
             <nav class="right-align">
                 <button type="button" class="border" data-ui="#{{ $id }}">Tutup</button>
-                <button type="submit">Simpan</button>
+                <button type="submit">{{ $submit }}</button>
             </nav>
         @endif
     </form>

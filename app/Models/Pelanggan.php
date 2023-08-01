@@ -36,26 +36,23 @@ class Pelanggan extends Model
 
     protected static function booted(): void
     {
-        // buat tagihan otomatis ketika pelanggan baru dibuat
+        // buat tagihan dan saldo otomatis ketika pelanggan baru dibuat
         static::created(function ($pelanggan) {
             Tagihan::create([
                 'pelanggan_id' => $pelanggan->id,
                 'bulan' => date('Y-m-d'),
                 'is_lunas' => false,
             ]);
-        });
-
-        // buat saldo otomatis ketika pelanggan baru dibuat
-        static::created(function ($pelanggan) {
             Saldo::create([
                 'pelanggan_id' => $pelanggan->id,
                 'saldo' => 10000,
             ]);
         });
 
-        // hapus tagihan otomatis ketika pelanggan dihapus
+        // hapus tagihan dan saldo otomatis ketika pelanggan dihapus
         static::deleted(function ($pelanggan) {
             Tagihan::where('pelanggan_id', $pelanggan->id)->delete();
+            Saldo::where('pelanggan_id', $pelanggan->id)->delete();
         });
     }
 

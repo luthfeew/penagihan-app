@@ -16,6 +16,7 @@ class Dialog extends Component
         public string $action = '',
         public string $title = '',
         public string $size = '',
+        public string $submit = 'Simpan',
     ) {
         //
     }

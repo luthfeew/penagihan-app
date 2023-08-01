@@ -50,9 +50,31 @@ class Bayar extends Component
         $this->tambahan2 = $pelanggan->tambahan2;
         $this->biaya2 = $pelanggan->biaya2;
         $this->diskon = $pelanggan->diskon;
-        $this->totalTagihan = $this->tagihan + $this->biaya1 + $this->biaya2 - $this->diskon;
+        $this->totalTagihan = (int) $this->tagihan + (int) $this->biaya1 + (int) $this->biaya2 - (int) $this->diskon;
 
         $this->action = 'bayar';
         $this->dispatchBrowserEvent('showDialog', ['id' => 'bayar']);
+    }
+
+    public function simpan()
+    {
+        $this->validate([
+            'bayar' => 'required|numeric|min:' . $this->totalTagihan - $this->saldo,
+        ], [
+            'bayar.min' => 'Pembayaran kurang',
+        ]);
+
+        $tagihan = Tagihan::find($this->tagihanId);
+        $tagihan->is_lunas = true;
+        $tagihan->save();
+
+        $pelanggan = Tagihan::find($this->tagihanId)->pelanggan;
+        $pelanggan->saldo->saldo = $this->kembali;
+        $pelanggan->saldo->save();
+
+        $this->reset();
+        $this->resetErrorBag();
+        $this->dispatchBrowserEvent('closeDialog', ['id' => 'bayar']);
+        $this->dispatchBrowserEvent('showToast', ['message' => 'Tagihan berhasil dibayar']);
     }
 }

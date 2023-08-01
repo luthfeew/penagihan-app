@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <x-dialog id="bayar" action="{{ $action }}" title="Tagihan">
+        <x-dialog id="bayar" action="{{ $action }}" title="Tagihan" submit="Bayar">
             <h5 class="small">Nama : {{ $nama }}</h5>
             <div class="divider"></div>
             <h5 class="small">Paket : {{ $paket }}</h5>
@@ -31,21 +31,26 @@
                 </div>
                 <div class="s12 m6"><x-input name="diskon" label="Diskon" type="number" live="true" /></div>
             </div>
-            <h5 class="small">Total Tagihan : @rupiah($totalTagihan)</h5>
+            <h5 class="small right-align">Total Tagihan : @rupiah($totalTagihan)</h5>
             @if ($saldo != 0)
-            <h5 class="small">- (saldo) @rupiah($saldo)</h5>
-            <h5 class="small">= @rupiah($totalTagihan - $saldo)</h5>
+                <h5 class="small right-align">- (saldo) @rupiah($saldo)</h5>
+                <h5 class="small right-align">= @rupiah($totalTagihan - $saldo)</h5>
             @endif
             <div class="divider"></div>
             <div class="grid">
+                <div class="s12 m6 middle-align right-align">
+                    <h6 class="small">Bayar : Rp. </h6>
+                </div>
                 <div class="s12 m6">
                     <x-input name="bayar" label="Bayar" type="number" live="true" />
                 </div>
-                {{-- <div class="s12 m6">
-                    <x-input name="kembali" label="Kembali" type="number" live="true" />
-                </div> --}}
             </div>
-            <h5 class="small">Kembali (saldo) : @if($kembali > 0) @rupiah($kembali) @else - @endif</h5>
+            <h5 class="small right-align">Kembali (saldo) : @if ($kembali > 0)
+                    @rupiah($kembali)
+                @else
+                    -
+                @endif
+            </h5>
         </x-dialog>
 
         <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Total Tagihan', 'Lunas', '']">
@@ -58,7 +63,7 @@
                     <td>{{ $tagihan->pelanggan->tanggal_tagihan }}</td>
                     <td>
                         @php
-                            $total = $tagihan->pelanggan->paket->tarif + $tagihan->pelanggan->biaya1 + $tagihan->pelanggan->biaya2 - $tagihan->pelanggan->diskon;
+                            $total = (int) $tagihan->pelanggan->paket->tarif + (int) $tagihan->pelanggan->biaya1 + (int) $tagihan->pelanggan->biaya2 - (int) $tagihan->pelanggan->diskon;
                         @endphp
                         @rupiah($total)
                     </td>
