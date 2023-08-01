@@ -6,7 +6,7 @@
     <div>
         <button class="extend border square round" wire:click="tambah">
             <i>add</i>
-            <span>Button</span>
+            <span>Tambah</span>
         </button>
     </div>
 </div>

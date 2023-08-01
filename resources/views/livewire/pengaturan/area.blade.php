@@ -19,7 +19,7 @@
                                 <i>edit</i>
                             </a>
                             @if ($area->pelanggan->count() == 0)
-                                <a wire:click="delete({{ $area->id }})">
+                                <a wire:click="hapus({{ $area->id }})">
                                     <i>delete</i>
                                 </a>
                             @endif

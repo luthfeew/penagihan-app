@@ -23,7 +23,6 @@
             document.getElementById(event.detail.id).close();
         })
     </script>
-    <x-toaster-hub />
     <livewire:scripts />
 </body>
 

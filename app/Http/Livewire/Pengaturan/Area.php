@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Pengaturan;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Area as AreaModel;
-use Masmerise\Toaster\Toaster;
 
 class Area extends Component
 {
@@ -21,6 +20,7 @@ class Area extends Component
     public function tambah()
     {
         $this->reset();
+        $this->resetErrorBag();
         $this->action = 'tambah';
         $this->dispatchBrowserEvent('showDialog', ['id' => 'area']);
     }
@@ -28,10 +28,16 @@ class Area extends Component
     public function edit($id)
     {
         $this->reset();
+        $this->resetErrorBag();
         $this->areaId = $id;
         $this->nama = AreaModel::find($id)->nama;
         $this->action = 'edit';
         $this->dispatchBrowserEvent('showDialog', ['id' => 'area']);
+    }
+
+    public function hapus($id)
+    {
+        AreaModel::find($id)->forceDelete();
     }
 
     public function simpan()

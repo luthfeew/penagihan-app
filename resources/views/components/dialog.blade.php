@@ -11,7 +11,9 @@
         {{ $slot }}
         <nav class="right-align">
             <button type="button" class="border" data-ui="#{{ $id }}">Tutup</button>
-            <button type="submit">Simpan</button>
+            @if ($action != 'lihat')
+                <button type="submit">Simpan</button>
+            @endif
         </nav>
     </form>
 </dialog>
