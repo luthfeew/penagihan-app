@@ -41,13 +41,15 @@ class Pelanggan extends Model
             Tagihan::create([
                 'pelanggan_id' => $pelanggan->id,
                 'bulan' => date('Y-m-d'),
-                'tagihan' => $pelanggan->paket->tarif,
-                'tambahan1' => $pelanggan->tambahan1,
-                'biaya1' => $pelanggan->biaya1,
-                'tambahan2' => $pelanggan->tambahan2,
-                'biaya2' => $pelanggan->biaya2,
-                'diskon' => $pelanggan->diskon,
                 'is_lunas' => false,
+            ]);
+        });
+
+        // buat saldo otomatis ketika pelanggan baru dibuat
+        static::created(function ($pelanggan) {
+            Saldo::create([
+                'pelanggan_id' => $pelanggan->id,
+                'saldo' => 10000,
             ]);
         });
 

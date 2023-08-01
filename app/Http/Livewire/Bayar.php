@@ -7,7 +7,9 @@ use App\Models\Tagihan;
 
 class Bayar extends Component
 {
+    public $tagihanId, $pelangganId, $bulan, $tagihan, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $totalTagihan, $isLunas;
     public $cari, $action;
+    public $nama, $alamat, $paket, $tarif, $telp, $keterangan;
 
     public function render()
     {
@@ -19,7 +21,36 @@ class Bayar extends Component
         $result = $data->setCollection($sorted);
 
         return view('livewire.bayar', [
-            'tagihans' => $result
+            'tagihans' => $result,
         ])->layoutData(['title' => 'Bayar']);
+    }
+
+    public function updated()
+    {
+        $this->totalTagihan = $this->tagihan + (int) ($this->biaya1 ?? 0) + (int) ($this->biaya2 ?? 0) - (int) ($this->diskon ?? 0);
+    }
+
+    public function bayar($id)
+    {
+        $this->reset();
+        $this->resetErrorBag();
+
+        $tagihan = Tagihan::find($id);
+        $pelanggan = Tagihan::find($id)->pelanggan;
+        $this->pelangganId = $pelanggan->id;
+        $this->nama = $pelanggan->nama;
+        $this->paket = $pelanggan->paket->nama . ' @ Rp. ' . number_format($pelanggan->paket->tarif, 0, ',', '.');
+        $this->tagihanId = $id;
+        $this->bulan = $tagihan->bulan;
+        $this->tagihan = $pelanggan->paket->tarif;
+        $this->tambahan1 = $pelanggan->tambahan1;
+        $this->biaya1 = $pelanggan->biaya1;
+        $this->tambahan2 = $pelanggan->tambahan2;
+        $this->biaya2 = $pelanggan->biaya2;
+        $this->diskon = $pelanggan->diskon;
+        $this->totalTagihan = $this->tagihan + $this->biaya1 + $this->biaya2 - $this->diskon;
+
+        $this->action = 'bayar';
+        $this->dispatchBrowserEvent('showDialog', ['id' => 'bayar']);
     }
 }

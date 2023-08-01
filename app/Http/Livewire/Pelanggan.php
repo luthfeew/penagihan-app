@@ -115,7 +115,7 @@ class Pelanggan extends Component
     {
         $this->validate([
             'nama' => 'required|string|min:3',
-            'telepon' => 'required|max_digits:20',
+            'telepon' => 'required|string|max:25',
             'tglRegister' => 'nullable|date',
             'tglTagihan' => 'required|numeric|min:1|max:31',
             'tglIsolir' => 'nullable|numeric|min:1|max:31',
@@ -135,7 +135,8 @@ class Pelanggan extends Component
             'nama.string' => ':attribute harus berupa string.',
             'nama.min' => ':attribute minimal 3 karakter.',
             'telepon.required' => ':attribute tidak boleh kosong.',
-            'telepon.max_digits' => ':attribute maksimal 20 karakter.',
+            'telepon.string' => ':attribute harus berupa string.',
+            'telepon.max' => ':attribute maksimal 25 karakter.',
             'tglRegister.date' => ':attribute harus berupa tanggal.',
             'tglTagihan.required' => ':attribute tidak boleh kosong.',
             'tglTagihan.numeric' => ':attribute harus berupa angka.',

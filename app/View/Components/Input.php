@@ -18,6 +18,7 @@ class Input extends Component
         public string $type = 'text',
         public string $message = '',
         public string $helper = '',
+        public bool $live = false,
     ) {
         //
     }

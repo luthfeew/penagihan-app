@@ -2,7 +2,11 @@
     @if ($icon)
         <i>{{ $icon }}</i>
     @endif
-    <input wire:model.defer="{{ $name }}" type="{{ $type }}" placeholder=" ">
+    @if ($live)
+        <input wire:model="{{ $name }}" type="{{ $type }}" placeholder=" ">
+    @else
+        <input wire:model.defer="{{ $name }}" type="{{ $type }}" placeholder=" ">
+    @endif
     <label>{{ $label }}</label>
     @error($name)
         <span class="error">{{ $message }}</span>
