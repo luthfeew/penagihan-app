@@ -15,6 +15,15 @@
     <main class="responsive">
         {{ $slot }}
     </main>
+    <script>
+        window.addEventListener('showDialog', event => {
+            document.getElementById(event.detail.id).show();
+        })
+        window.addEventListener('closeDialog', event => {
+            document.getElementById(event.detail.id).close();
+        })
+    </script>
+    <x-toaster-hub />
     <livewire:scripts />
 </body>
 
