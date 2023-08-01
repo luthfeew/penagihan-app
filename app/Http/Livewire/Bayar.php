@@ -9,7 +9,7 @@ class Bayar extends Component
 {
     public $tagihanId, $pelangganId, $bulan, $tagihan, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $totalTagihan, $isLunas;
     public $cari, $action;
-    public $nama, $alamat, $paket, $tarif, $telp, $keterangan;
+    public $nama, $paket, $saldo, $bayar, $kembali;
 
     public function render()
     {
@@ -28,6 +28,7 @@ class Bayar extends Component
     public function updated()
     {
         $this->totalTagihan = $this->tagihan + (int) ($this->biaya1 ?? 0) + (int) ($this->biaya2 ?? 0) - (int) ($this->diskon ?? 0);
+        $this->kembali = (int) ($this->saldo ?? 0) + (int) ($this->bayar ?? 0) - $this->totalTagihan;
     }
 
     public function bayar($id)
@@ -39,6 +40,7 @@ class Bayar extends Component
         $pelanggan = Tagihan::find($id)->pelanggan;
         $this->pelangganId = $pelanggan->id;
         $this->nama = $pelanggan->nama;
+        $this->saldo = $pelanggan->saldo->saldo;
         $this->paket = $pelanggan->paket->nama . ' @ Rp. ' . number_format($pelanggan->paket->tarif, 0, ',', '.');
         $this->tagihanId = $id;
         $this->bulan = $tagihan->bulan;

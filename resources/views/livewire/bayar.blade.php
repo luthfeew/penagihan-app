@@ -14,44 +14,38 @@
         </div>
 
         <x-dialog id="bayar" action="{{ $action }}" title="Tagihan">
-            {{-- @json($pelangganId)
-            @json($tagihanId)
-            @json($bulan)
-            @json($tagihan)
-            @json($tambahan1)
-            @json($biaya1)
-            @json($tambahan2)
-            @json($biaya2)
-            @json($diskon) --}}
             <h5 class="small">Nama : {{ $nama }}</h5>
+            <div class="divider"></div>
             <h5 class="small">Paket : {{ $paket }}</h5>
-            {{-- <div class="row">
-                <div>
+            <div class="grid">
+                <div class="s12 m6 middle-align right-align">
                     <h6 class="small">Biaya Tambahan 1 : Rp. </h6>
                 </div>
-                <div><x-input name="biaya1" label="Tambahan 1" type="number" live="true" /></div>
-            </div>
-            <div class="row">
-                <div>
+                <div class="s12 m6"><x-input name="biaya1" label="Tambahan 1" type="number" live="true" /></div>
+                <div class="s12 m6 middle-align right-align">
                     <h6 class="small">Biaya Tambahan 2 : Rp. </h6>
                 </div>
-                <div><x-input name="biaya2" label="Tambahan 2" type="number" live="true" /></div>
-            </div>
-            <div class="row">
-                <div>
+                <div class="s12 m6"><x-input name="biaya2" label="Tambahan 2" type="number" live="true" /></div>
+                <div class="s12 m6 middle-align right-align">
                     <h6 class="small">Diskon : Rp. </h6>
                 </div>
-                <div><x-input name="diskon" label="Diskon" type="number" live="true" /></div>
-            </div> --}}
-            <div class="grid">
-                <div class="s12 m6 middle-align right-align"><h6 class="small">Biaya Tambahan 1 : Rp. </h6></div>
-                <div class="s12 m6"><x-input name="biaya1" label="Tambahan 1" type="number" live="true" /></div>
-                <div class="s12 m6 middle-align right-align"><h6 class="small">Biaya Tambahan 2 : Rp. </h6></div>
-                <div class="s12 m6"><x-input name="biaya2" label="Tambahan 2" type="number" live="true" /></div>
-                <div class="s12 m6 middle-align right-align"><h6 class="small">Diskon : Rp. </h6></div>
                 <div class="s12 m6"><x-input name="diskon" label="Diskon" type="number" live="true" /></div>
             </div>
             <h5 class="small">Total Tagihan : @rupiah($totalTagihan)</h5>
+            @if ($saldo != 0)
+            <h5 class="small">- (saldo) @rupiah($saldo)</h5>
+            <h5 class="small">= @rupiah($totalTagihan - $saldo)</h5>
+            @endif
+            <div class="divider"></div>
+            <div class="grid">
+                <div class="s12 m6">
+                    <x-input name="bayar" label="Bayar" type="number" live="true" />
+                </div>
+                {{-- <div class="s12 m6">
+                    <x-input name="kembali" label="Kembali" type="number" live="true" />
+                </div> --}}
+            </div>
+            <h5 class="small">Kembali (saldo) : @if($kembali > 0) @rupiah($kembali) @else - @endif</h5>
         </x-dialog>
 
         <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Total Tagihan', 'Lunas', '']">

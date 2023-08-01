@@ -73,4 +73,9 @@ class Pelanggan extends Model
     {
         return $this->hasMany(Tagihan::class);
     }
+
+    public function saldo()
+    {
+        return $this->hasOne(Saldo::class);
+    }
 }
