@@ -42,6 +42,7 @@ class Paket extends Component
     public function hapus($id)
     {
         PaketModel::find($id)->forceDelete();
+        $this->dispatchBrowserEvent('showToast', ['message' => 'Paket berhasil dihapus.']);
     }
 
     public function simpan()
@@ -71,12 +72,14 @@ class Paket extends Component
                 'tarif' => $this->tarif,
                 'keterangan' => $this->keterangan,
             ]);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Paket berhasil ditambahkan.']);
         } else {
             PaketModel::find($this->paketId)->update([
                 'nama' => $this->nama,
                 'tarif' => $this->tarif,
                 'keterangan' => $this->keterangan,
             ]);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Paket berhasil diubah.']);
         }
 
         $this->dispatchBrowserEvent('closeDialog', ['id' => 'paket']);

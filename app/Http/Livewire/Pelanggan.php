@@ -79,7 +79,7 @@ class Pelanggan extends Component
         $this->getData($id);
 
         $this->action = 'lihat';
-        $this->dispatchBrowserEvent('showDialog', ['id' => 'lihatPelanggan']);
+        $this->dispatchBrowserEvent('showDialog', ['id' => 'pelanggan']);
     }
 
     public function tambah()
@@ -102,11 +102,13 @@ class Pelanggan extends Component
     public function hapus($id)
     {
         $pelanggan = PelangganModel::find($id);
-        $pelanggan->forceDelete();
+        $pelanggan->delete();
 
         if ($pelanggan->foto) {
             Storage::disk('custom')->delete($pelanggan->foto);
         }
+
+        $this->dispatchBrowserEvent('showToast', ['message' => 'Pelanggan berhasil dihapus.']);
     }
 
     public function simpan()
@@ -194,6 +196,7 @@ class Pelanggan extends Component
                 'alamat' => $this->alamat,
                 'foto' => $this->foto ? $this->foto->store('foto', 'custom') : $this->oldFoto,
             ]);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Pelanggan berhasil ditambahkan.']);
         } else {
             PelangganModel::find($this->pelangganId)->update([
                 'nama' => $this->nama,
@@ -217,6 +220,8 @@ class Pelanggan extends Component
             if ($this->foto && $this->oldFoto) {
                 Storage::disk('custom')->delete($this->oldFoto);
             }
+
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Data pelanggan berhasil diperbarui.']);
         }
 
         $this->dispatchBrowserEvent('closeDialog', ['id' => 'pelanggan']);

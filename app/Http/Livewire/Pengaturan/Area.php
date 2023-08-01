@@ -29,8 +29,10 @@ class Area extends Component
     {
         $this->reset();
         $this->resetErrorBag();
+
         $this->areaId = $id;
         $this->nama = AreaModel::find($id)->nama;
+
         $this->action = 'edit';
         $this->dispatchBrowserEvent('showDialog', ['id' => 'area']);
     }
@@ -38,6 +40,7 @@ class Area extends Component
     public function hapus($id)
     {
         AreaModel::find($id)->forceDelete();
+        $this->dispatchBrowserEvent('showToast', ['message' => 'Area berhasil dihapus.']);
     }
 
     public function simpan()
@@ -57,10 +60,12 @@ class Area extends Component
             AreaModel::create([
                 'nama' => $this->nama,
             ]);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Area berhasil ditambahkan.']);
         } else {
             AreaModel::find($this->areaId)->update([
                 'nama' => $this->nama,
             ]);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Area berhasil diubah.']);
         }
 
         $this->dispatchBrowserEvent('closeDialog', ['id' => 'area']);

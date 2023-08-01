@@ -7,13 +7,18 @@
     </div>
     <div class="space"></div>
 
-    <form wire:submit.prevent="simpan">
+    <form @if ($action == 'lihat') inert @endif wire:submit.prevent="simpan">
         {{ $slot }}
+        @if ($action != 'lihat')
+            <nav class="right-align">
+                <button type="button" class="border" data-ui="#{{ $id }}">Tutup</button>
+                <button type="submit">Simpan</button>
+            </nav>
+        @endif
+    </form>
+    @if ($action == 'lihat')
         <nav class="right-align">
             <button type="button" class="border" data-ui="#{{ $id }}">Tutup</button>
-            @if ($action != 'lihat')
-                <button type="submit">Simpan</button>
-            @endif
         </nav>
-    </form>
+    @endif
 </dialog>

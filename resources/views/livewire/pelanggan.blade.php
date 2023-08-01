@@ -1,5 +1,5 @@
 <div>
-    <article class="border">
+    <article>
 
         <x-heading title="Pelanggan" subtitle="Daftar pelanggan" />
 
@@ -119,10 +119,6 @@
                     </div>
                 </div>
             </div>
-        </x-dialog>
-
-        <x-dialog size="large" id="lihatPelanggan" action="{{ $action }}" title="Pelanggan">
-            {{-- SHOW_PELANGGAN --}}
         </x-dialog>
 
         <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Tarif', '']">

@@ -13,14 +13,24 @@
 <body class="light">
     @include('layouts.navbar')
     <main class="responsive">
+        <div class="space"></div>
         {{ $slot }}
     </main>
+    <div class="toast" id="toast">
+        <i>done</i>
+        <span></span>
+    </div>
     <script>
         window.addEventListener('showDialog', event => {
             document.getElementById(event.detail.id).show();
         })
         window.addEventListener('closeDialog', event => {
             document.getElementById(event.detail.id).close();
+        })
+        window.addEventListener('showToast', event => {
+            // document.getElementById('toast').querySelector('i').innerHTML = event.detail.icon;
+            document.getElementById('toast').querySelector('span').innerHTML = event.detail.message;
+            ui("#toast", 3000);
         })
     </script>
     <livewire:scripts />

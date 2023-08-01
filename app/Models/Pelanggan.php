@@ -50,6 +50,11 @@ class Pelanggan extends Model
                 'is_lunas' => false,
             ]);
         });
+
+        // hapus tagihan otomatis ketika pelanggan dihapus
+        static::deleted(function ($pelanggan) {
+            Tagihan::where('pelanggan_id', $pelanggan->id)->delete();
+        });
     }
 
     public function paket()

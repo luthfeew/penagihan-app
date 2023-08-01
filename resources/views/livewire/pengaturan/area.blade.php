@@ -1,5 +1,5 @@
 <div>
-    <article class="border">
+    <article>
 
         <x-heading title="Area" subtitle="Daftar area yang terdaftar" />
 

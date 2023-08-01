@@ -59,7 +59,7 @@
         <i>menu</i>
     </button>
     <h5 class="max">{{ config('app.name') }}</h5>
-    <img src="https://www.beercss.com/favicon.png" class="circle margin">
+    <i class="extra circle margin">monetization_on</i>
 </nav>
 
 {{-- BELUM FIX --}}

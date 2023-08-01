@@ -1,5 +1,5 @@
 <div>
-    <article class="border">
+    <article>
 
         <x-heading title="Paket" subtitle="Daftar paket yang tersedia" />
 
