@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Tagihan;
+use App\Models\Transaksi;
 
 class Bayar extends Component
 {
@@ -71,6 +72,16 @@ class Bayar extends Component
         $pelanggan = Tagihan::find($this->tagihanId)->pelanggan;
         $pelanggan->saldo->saldo = $this->kembali;
         $pelanggan->saldo->save();
+
+        Transaksi::create([
+            'tagihan_id' => $this->tagihanId,
+            'pelanggan_id' => $this->pelangganId,
+            'saldo_id' => $pelanggan->saldo->id,
+            'kode' => 'BYR',
+            'total_tagihan' => $this->totalTagihan - $this->saldo,
+            'bayar' => $this->bayar,
+            'lebih' => $this->kembali,
+        ]);
 
         $this->reset();
         $this->resetErrorBag();

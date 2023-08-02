@@ -14,6 +14,9 @@
         </div>
 
         <x-dialog size="large" id="pelanggan" action="{{ $action }}" title="Pelanggan">
+            @if ($action == 'lihat')
+            <h5 class="small">Saldo : @rupiah($saldo)</h5>
+            @endif
             <div class="row">
                 <h5 class="small">Data Identitas</h5>
                 <div class="small-divider max"></div>
@@ -49,42 +52,36 @@
                 <div class="small-divider max"></div>
             </div>
             <div class="space"></div>
-            <details>
-                <summary>Tampilkan</summary>
-                <div class="grid">
-                    <div class="s12 m6">
-                        <x-input name="tambahan1" label="Tambahan 1" />
-                    </div>
-                    <div class="s12 m6">
-                        <x-input name="biaya1" label="Biaya 1" />
-                    </div>
-                    <div class="s12 m6">
-                        <x-input name="tambahan2" label="Tambahan 2" />
-                    </div>
-                    <div class="s12 m6">
-                        <x-input name="biaya2" label="Biaya 2" />
-                    </div>
-                    <div class="s12 m6">
-                        <x-input name="diskon" label="Diskon" />
-                    </div>
+            <div class="grid">
+                <div class="s12 m6">
+                    <x-input name="tambahan1" label="Tambahan 1" />
                 </div>
-            </details>
+                <div class="s12 m6">
+                    <x-input name="biaya1" label="Biaya 1" />
+                </div>
+                <div class="s12 m6">
+                    <x-input name="tambahan2" label="Tambahan 2" />
+                </div>
+                <div class="s12 m6">
+                    <x-input name="biaya2" label="Biaya 2" />
+                </div>
+                <div class="s12 m6">
+                    <x-input name="diskon" label="Diskon" />
+                </div>
+            </div>
             <div class="row">
                 <h5 class="small">Data Modem (opsional)</h5>
                 <div class="small-divider max"></div>
             </div>
             <div class="space"></div>
-            <details>
-                <summary>Tampilkan</summary>
-                <div class="grid">
-                    <div class="s12 m6">
-                        <x-input name="ppoe" label="PPOE" />
-                    </div>
-                    <div class="s12 m6">
-                        <x-input name="infoModem" label="Info Modem" />
-                    </div>
+            <div class="grid">
+                <div class="s12 m6">
+                    <x-input name="ppoe" label="PPOE" />
                 </div>
-            </details>
+                <div class="s12 m6">
+                    <x-input name="infoModem" label="Info Modem" />
+                </div>
+            </div>
             <div class="row">
                 <h5 class="small">Data Lokasi (opsional)</h5>
                 <div class="small-divider max"></div>

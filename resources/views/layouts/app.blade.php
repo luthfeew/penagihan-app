@@ -23,6 +23,7 @@
     <script>
         window.addEventListener('showDialog', event => {
             document.getElementById(event.detail.id).show();
+            document.getElementById(event.detail.id).scrollTo(0, 0);
         })
         window.addEventListener('closeDialog', event => {
             document.getElementById(event.detail.id).close();
@@ -32,7 +33,11 @@
             document.getElementById('toast').querySelector('span').innerHTML = event.detail.message;
             ui("#toast", 3000);
         })
+        window.addEventListener('openNewTab', event => {
+            window.open(event.detail.url, '_blank');
+        })
     </script>
+    @stack('scripts')
     <livewire:scripts />
 </body>
 

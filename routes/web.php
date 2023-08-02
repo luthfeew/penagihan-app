@@ -7,6 +7,7 @@ use App\Http\Livewire\Bayar;
 use App\Http\Livewire\Pengaduan;
 use App\Http\Livewire\Pelanggan;
 use App\Http\Livewire\Pengaturan;
+use App\Http\Livewire\Nota;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,4 @@ Route::get('/bayar', Bayar::class);
 Route::get('/pengaduan', Pengaduan::class);
 Route::get('/pelanggan', Pelanggan::class);
 Route::get('/pengaturan', Pengaturan::class);
+Route::get('/nota/{id}', Nota::class);

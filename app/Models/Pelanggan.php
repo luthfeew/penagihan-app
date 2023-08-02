@@ -34,6 +34,12 @@ class Pelanggan extends Model
         'foto',
     ];
 
+    protected $casts = [
+        'biaya1' => 'integer',
+        'biaya2' => 'integer',
+        'diskon' => 'integer',
+    ];
+
     protected static function booted(): void
     {
         // buat tagihan dan saldo otomatis ketika pelanggan baru dibuat
@@ -45,7 +51,7 @@ class Pelanggan extends Model
             ]);
             Saldo::create([
                 'pelanggan_id' => $pelanggan->id,
-                'saldo' => 10000,
+                'saldo' => 0,
             ]);
         });
 

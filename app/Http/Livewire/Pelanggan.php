@@ -14,7 +14,7 @@ class Pelanggan extends Component
 {
     use WithFileUploads;
 
-    public $nama, $telepon, $tglRegister, $tglTagihan, $tglIsolir, $paket, $area;
+    public $nama, $telepon, $tglRegister, $tglTagihan, $tglIsolir, $paket, $area, $saldo;
     public $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon;
     public $ppoe, $infoModem;
     public $alamat, $foto, $oldFoto;
@@ -54,6 +54,7 @@ class Pelanggan extends Component
     {
         $pelanggan = PelangganModel::find($id);
         $this->pelangganId = $id;
+        $this->saldo = $pelanggan->saldo->saldo;
         $this->nama = $pelanggan->nama;
         $this->telepon = $pelanggan->telepon;
         $this->tglRegister = Str::substr($pelanggan->tanggal_register, 0, 10);

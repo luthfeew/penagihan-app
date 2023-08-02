@@ -23,14 +23,13 @@ class Tagihan extends Model
         'is_lunas',
     ];
 
-    // protected static function booted(): void
-    // {
-    //     // hitung total tagihan ketika tagihan baru dibuat
-    //     static::created(function ($tagihan) {
-    //         $tagihan->total_tagihan = $tagihan->tagihan + $tagihan->biaya1 + $tagihan->biaya2 - $tagihan->diskon;
-    //         $tagihan->save();
-    //     });
-    // }
+    protected $casts = [
+        'bulan' => 'date',
+        'tagihan' => 'integer',
+        'biaya1' => 'integer',
+        'biaya2' => 'integer',
+        'diskon' => 'integer',
+    ];
 
     public function pelanggan()
     {
