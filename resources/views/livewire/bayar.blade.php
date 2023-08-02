@@ -56,7 +56,7 @@
         <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Total Tagihan', 'Lunas', '']">
             @forelse ($tagihans as $tagihan)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $tagihans->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $tagihan->pelanggan->nama }}</td>
                     <td>{{ $tagihan->pelanggan->telepon }}</td>
                     <td>{{ $tagihan->pelanggan->area->nama }}</td>
@@ -94,6 +94,7 @@
                 </tr>
             @endforelse
         </x-table>
+        {{ $tagihans->links() }}
 
     </article>
 </div>

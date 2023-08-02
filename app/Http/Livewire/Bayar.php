@@ -3,13 +3,16 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Tagihan;
 use App\Models\Transaksi;
 
 class Bayar extends Component
 {
+    use WithPagination;
+
     public $tagihanId, $pelangganId, $bulan, $tagihan, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $totalTagihan, $isLunas;
-    public $cari, $action;
+    public $cari = '', $action;
     public $nama, $paket, $saldo, $bayar, $kembali;
 
     public function render()
@@ -24,6 +27,16 @@ class Bayar extends Component
         return view('livewire.bayar', [
             'tagihans' => $result,
         ])->layoutData(['title' => 'Bayar']);
+    }
+
+    public function updatingCari()
+    {
+        $this->resetPage();
+    }
+
+    public function paginationView()
+    {
+        return 'components.pagination';
     }
 
     public function updated()

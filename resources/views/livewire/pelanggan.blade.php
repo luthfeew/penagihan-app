@@ -15,7 +15,7 @@
 
         <x-dialog size="large" id="pelanggan" action="{{ $action }}" title="Pelanggan">
             @if ($action == 'lihat')
-            <h5 class="small">Saldo : @rupiah($saldo)</h5>
+                <h5 class="small">Saldo : @rupiah($saldo)</h5>
             @endif
             <div class="row">
                 <h5 class="small">Data Identitas</h5>
@@ -121,7 +121,7 @@
         <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Tarif', '']">
             @forelse($pelanggans as $pelanggan)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $pelanggans->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $pelanggan->nama }}</td>
                     <td>{{ $pelanggan->telepon }}</td>
                     <td>{{ $pelanggan->area->nama }}</td>
@@ -147,6 +147,7 @@
                 </tr>
             @endforelse
         </x-table>
+        {{ $pelanggans->links() }}
 
     </article>
 </div>

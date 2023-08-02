@@ -3,6 +3,16 @@
 
         <x-heading title="Transaksi" subtitle="Daftar transaksi" />
 
+        <div class="grid">
+            <div class="s12 m6">
+                <div class="field label prefix border">
+                    <i>search</i>
+                    <input wire:model="cari" type="text" placeholder=" ">
+                    <label>Cari</label>
+                </div>
+            </div>
+        </div>
+
         <x-dialog id="nota" action="{{ $action }}" title="Nota Pembayaran">
             <div id="printableArea">
                 <nav class="center-align">
@@ -88,7 +98,7 @@
         <x-table :headers="['#', 'Nama', 'Paket', 'Area', 'Nominal', 'Waktu', '']">
             @forelse($transaksis as $transaksi)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $transaksis->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $transaksi->pelanggan->nama }}</td>
                     <td>{{ $transaksi->pelanggan->paket->nama }}</td>
                     <td>{{ $transaksi->pelanggan->area->nama }}</td>
@@ -108,6 +118,7 @@
                 </tr>
             @endforelse
         </x-table>
+        {{ $transaksis->links() }}
 
     </article>
 </div>

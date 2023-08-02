@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Tagihan;
 use App\Models\Transaksi as TransaksiModel;
 use Vinkla\Hashids\Facades\Hashids;
@@ -10,15 +11,30 @@ use Illuminate\Support\Facades\Redirect;
 
 class Transaksi extends Component
 {
+    use WithPagination;
+
     public $paket, $nama, $telepon, $iuran, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $bulan, $tanggal, $totalTagihan;
     public $hashedId;
-    public $action;
+    public $action, $cari = '';
 
     public function render()
     {
         return view('livewire.transaksi', [
-            'transaksis' => TransaksiModel::withTrashed()->orderBy('created_at', 'desc')->get(),
+            'transaksis' => TransaksiModel::withTrashed()->whereHas('pelanggan', function ($query) {
+                $query->where('nama', 'like', '%' . $this->cari . '%')
+                    ->orWhere('telepon', 'like', '%' . $this->cari . '%');
+            })->orderBy('created_at', 'desc')->paginate(20),
         ])->layoutData(['title' => 'Transaksi']);
+    }
+
+    public function updatingCari()
+    {
+        $this->resetPage();
+    }
+
+    public function paginationView()
+    {
+        return 'components.pagination';
     }
 
     public function nota($id)

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use App\Models\Pelanggan as PelangganModel;
 use App\Models\Paket;
 use App\Models\Area;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Pelanggan extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     public $nama, $telepon, $tglRegister, $tglTagihan, $tglIsolir, $paket, $area, $saldo;
     public $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon;
@@ -31,12 +32,22 @@ class Pelanggan extends Component
         $this->listArea = Area::all()->pluck('nama', 'id')->toArray();
     }
 
+    public function updatingCari()
+    {
+        $this->resetPage();
+    }
+
+    public function paginationView()
+    {
+        return 'components.pagination';
+    }
+
     public function render()
     {
         return view('livewire.pelanggan', [
             'pelanggans' => PelangganModel::where('nama', 'like', '%' . $this->cari . '%')
                 ->orWhere('telepon', 'like', '%' . $this->cari . '%')
-                ->get(),
+                ->paginate(20),
         ])->layoutData(['title' => 'Pelanggan']);
     }
 
