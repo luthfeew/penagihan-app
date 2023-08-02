@@ -51,7 +51,7 @@ class Transaksi extends Component
         *RT_RW_NET*
 
         NOTA ELEKTRONIK
-        http://localhost/nota/$this->hashedId
+        " . config('app.url') . "/nota/$this->hashedId
 
         Yth. Bapak / Ibu
         $this->nama
