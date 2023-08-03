@@ -7,7 +7,6 @@ use Livewire\WithPagination;
 use App\Models\Tagihan;
 use App\Models\Transaksi as TransaksiModel;
 use Vinkla\Hashids\Facades\Hashids;
-use Illuminate\Support\Facades\Redirect;
 
 class Transaksi extends Component
 {

@@ -8,6 +8,8 @@ use App\Http\Livewire\Pengaduan;
 use App\Http\Livewire\Pelanggan;
 use App\Http\Livewire\Pengaturan;
 use App\Http\Livewire\Nota;
+use App\Http\Livewire\Login;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +22,18 @@ use App\Http\Livewire\Nota;
 |
 */
 
-Route::get('/', Beranda::class);
-Route::get('/transaksi', Transaksi::class);
-Route::get('/bayar', Bayar::class);
-Route::get('/pengaduan', Pengaduan::class);
-Route::get('/pelanggan', Pelanggan::class);
-Route::get('/pengaturan', Pengaturan::class);
+Route::get('/login', Login::class)->name('login');
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect()->route('login');
+})->name('logout');
 Route::get('/nota/{id}', Nota::class);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', Beranda::class);
+    Route::get('/transaksi', Transaksi::class);
+    Route::get('/bayar', Bayar::class);
+    Route::get('/pengaduan', Pengaduan::class);
+    Route::get('/pelanggan', Pelanggan::class);
+    Route::get('/pengaturan', Pengaturan::class);
+});

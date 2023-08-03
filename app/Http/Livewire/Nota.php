@@ -35,6 +35,6 @@ class Nota extends Component
 
     public function render()
     {
-        return view('livewire.nota')->layout('layouts.nota');
+        return view('livewire.nota')->layout('layouts.guest', ['title' => 'Nota']);
     }
 }
