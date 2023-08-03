@@ -80,6 +80,11 @@
                     </td>
                     <td>
                         <nav class="right-align">
+                            @if ($tagihan->is_lunas == false && $tagihan->pelanggan->tanggal_tagihan <= date('d'))
+                                <a wire:click="notif({{ $tagihan->id }})">
+                                    <i>notifications</i>
+                                </a>
+                            @endif
                             @if ($tagihan->is_lunas == false)
                                 <a wire:click="bayar({{ $tagihan->id }})">
                                     <i>payments</i>
