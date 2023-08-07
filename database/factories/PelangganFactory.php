@@ -32,6 +32,7 @@ class PelangganFactory extends Factory
             'biaya2' => rand(1, 100) . '000',
             'diskon' => rand(1, 100) . '000',
             'alamat' => $this->faker->address,
+            'created_at' => $tanggal,
         ];
     }
 }

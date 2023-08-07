@@ -26,7 +26,7 @@
                     <x-input name="nama" label="Nama" />
                 </div>
                 <div class="s12 m6">
-                    <x-input name="telepon" label="Nomor Telepon / WA" />
+                    <x-input name="telepon" label="Nomor Telepon / WA" type="number" />
                 </div>
                 <div class="s12 m4">
                     <x-input name="tglRegister" label="Tanggal Register" type="date" icon="today"
@@ -57,16 +57,16 @@
                     <x-input name="tambahan1" label="Tambahan 1" />
                 </div>
                 <div class="s12 m6">
-                    <x-input name="biaya1" label="Biaya 1" />
+                    <x-input name="biaya1" label="Biaya 1" type="number" />
                 </div>
                 <div class="s12 m6">
                     <x-input name="tambahan2" label="Tambahan 2" />
                 </div>
                 <div class="s12 m6">
-                    <x-input name="biaya2" label="Biaya 2" />
+                    <x-input name="biaya2" label="Biaya 2" type="number" />
                 </div>
                 <div class="s12 m6">
-                    <x-input name="diskon" label="Diskon" />
+                    <x-input name="diskon" label="Diskon" type="number" />
                 </div>
             </div>
             <div class="row">

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? 'Page Title' }} | {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
     <livewire:styles />
 </head>
 
@@ -24,6 +25,7 @@
             ui("#toast", 3000);
         })
     </script>
+    @stack('scripts')
     <livewire:scripts />
 </body>
 
