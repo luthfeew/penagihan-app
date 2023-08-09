@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? 'Page Title' }} | {{ config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.2.13/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.2.13/dist/cdn/beer.min.js"></script>
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.0.1/dist/cdn/material-dynamic-colors.min.js"></script>
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     @stack('styles')
     <livewire:styles />
 </head>
