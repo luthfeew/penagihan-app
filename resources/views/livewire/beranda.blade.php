@@ -1,60 +1,32 @@
 <div>
-    <div class="space"></div>
     <article>
         <div class="grid">
-            <div class="s6 m3">
-                <div class="field label suffix border">
-                    <select class="active">
-                        <option>Juli</option>
-                    </select>
-                    <label class="active">Bulan</label>
-                    <i>arrow_drop_down</i>
-                </div>
-            </div>
-            <div class="s6 m3">
-                <div class="field label suffix border">
-                    <select class="active">
-                        <option>2023</option>
-                    </select>
-                    <label class="active">Tahun</label>
-                    <i>arrow_drop_down</i>
-                </div>
-            </div>
-            <div class="s12 m6"></div>
-
-
-            <div class="s6 m3">
+            <div class="s12 m6 l3">
                 <article class="border">
                     <div class="row">
-                        <button class="border square round extra">
-                            <i class="extra">person</i>
-                        </button>
+                        <i class="extra">person</i>
                         <div class="max">
-                            <h5>{{ $pelanggans }}</h5>
+                            <h5>{{ $pelanggan }}</h5>
                             <p>Pelanggan</p>
                         </div>
                     </div>
                 </article>
             </div>
-            <div class="s6 m3">
+            <div class="s12 m6 l3">
                 <article class="border">
                     <div class="row">
-                        <button class="border square round extra">
-                            <i class="extra">person_add</i>
-                        </button>
+                        <i class="extra">person_add</i>
                         <div class="max">
-                            <h5>{{ $newPelanggans }}</h5>
+                            <h5>{{ $pelangganBaru }}</h5>
                             <p>Pelanggan Baru</p>
                         </div>
                     </div>
                 </article>
             </div>
-            <div class="s6 m3">
+            <div class="s12 m6 l3">
                 <article class="border">
                     <div class="row">
-                        <button class="border square round extra">
-                            <i class="extra">paid</i>
-                        </button>
+                        <i class="extra">done</i>
                         <div class="max">
                             <h5>{{ $lunas }}</h5>
                             <p>Lunas Bayar</p>
@@ -62,15 +34,41 @@
                     </div>
                 </article>
             </div>
-            <div class="s6 m3">
+            <div class="s12 m6 l3">
                 <article class="border">
                     <div class="row">
-                        <button class="border square round extra">
-                            <i class="extra">money_off</i>
-                        </button>
+                        <i class="extra">block</i>
                         <div class="max">
                             <h5>{{ $belumLunas }}</h5>
                             <p>Belum Bayar</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="s12 m6 l3">
+                <article class="border">
+                    <div class="row">
+                        <i class="extra">attach_money</i>
+                        <div class="max">
+                            <h5 class="small">@rupiah($laba)</h5>
+                            <p>Laba</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="s12 m6 l3">
+                <article class="border">
+                    <div class="row">
+                        <i class="extra">money_off</i>
+                        <div class="max">
+                            @php
+                                $total = 0;
+                                foreach ($tagihans as $tagihan) {
+                                    $total += $tagihan->pelanggan->paket->tarif + $tagihan->pelanggan->biaya1 + $tagihan->pelanggan->biaya2 - $tagihan->pelanggan->diskon;
+                                }
+                            @endphp
+                            <h5 class="small">@rupiah($total)</h5>
+                            <p>Laba Pending</p>
                         </div>
                     </div>
                 </article>

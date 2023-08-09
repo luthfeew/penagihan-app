@@ -55,12 +55,27 @@
 
         <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Total Tagihan', 'Lunas', '']">
             @forelse ($tagihans as $tagihan)
-                <tr>
+                @php
+                    // get year and month from tagihan->bulan
+                    $a = substr($tagihan->bulan, 0, 8);
+                    // get tanggal_tagihan from tagihan->pelanggan->tanggal_tagihan and add padding 0 if < 10
+                    $b = str_pad($tagihan->pelanggan->tanggal_tagihan, 2, '0', STR_PAD_LEFT);
+                    // combine $a and $b
+                    $c = $a . $b;
+                    // convert to date
+                    $d = \Carbon\Carbon::parse($c);
+
+                    $color = $d->isPast() ? 'yellow' : '';
+                @endphp
+                <tr class="{{ $color }}">
                     <td>{{ $tagihans->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $tagihan->pelanggan->nama }}</td>
                     <td>{{ $tagihan->pelanggan->telepon }}</td>
                     <td>{{ $tagihan->pelanggan->area->nama }}</td>
-                    <td>{{ $tagihan->pelanggan->tanggal_tagihan }}</td>
+                    <td>
+                        {{ $tagihan->pelanggan->tanggal_tagihan }}
+                        {{ \Carbon\Carbon::parse($tagihan->bulan)->locale('id')->monthName }}
+                    </td>
                     <td>
                         @php
                             $total = (int) $tagihan->pelanggan->paket->tarif + (int) $tagihan->pelanggan->biaya1 + (int) $tagihan->pelanggan->biaya2 - (int) $tagihan->pelanggan->diskon;
@@ -71,8 +86,8 @@
                         @if ($tagihan->is_lunas == true)
                             <i>done</i>
                         @else
-                            @if ($tagihan->pelanggan->tanggal_tagihan <= date('d'))
-                                <i>warning</i>
+                            @if ($d->isPast())
+                                <i class="red-text">warning</i>
                             @else
                                 <i>remove</i>
                             @endif
@@ -80,7 +95,7 @@
                     </td>
                     <td>
                         <nav class="right-align">
-                            @if ($tagihan->is_lunas == false && $tagihan->pelanggan->tanggal_tagihan <= date('d'))
+                            @if ($tagihan->is_lunas == false && $d->isPast())
                                 <a wire:click="notif({{ $tagihan->id }})">
                                     <i>notifications</i>
                                 </a>

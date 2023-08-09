@@ -17,15 +17,18 @@ class Bayar extends Component
 
     public function render()
     {
-        $data = Tagihan::leftJoin('pelanggans', 'tagihans.pelanggan_id', '=', 'pelanggans.id')
+        $tagihans = Tagihan::leftJoin('pelanggans', 'tagihans.pelanggan_id', '=', 'pelanggans.id')
             ->select('tagihans.*', 'pelanggans.*')
             ->where('pelanggans.nama', 'like', '%' . $this->cari . '%')
+            ->orderBy('tagihans.is_lunas', 'asc')
+            ->orderBy('tagihans.bulan', 'asc')
+            ->orderBy('pelanggans.tanggal_tagihan', 'asc')
             ->paginate(20);
-        $sorted = $data->getCollection()->sortBy('pelanggan.tanggal_tagihan')->values();
-        $result = $data->setCollection($sorted);
+        // $sorted = $data->getCollection()->sortBy('pelanggan.tanggal_tagihan')->values();
+        // $result = $data->setCollection($sorted);
 
         return view('livewire.bayar', [
-            'tagihans' => $result,
+            'tagihans' => $tagihans,
         ])->layoutData(['title' => 'Bayar']);
     }
 
