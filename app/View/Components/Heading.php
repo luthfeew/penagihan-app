@@ -14,6 +14,7 @@ class Heading extends Component
     public function __construct(
         public string $title = '',
         public string $subtitle = '',
+        public string $action = 'true',
     ) {
         //
     }

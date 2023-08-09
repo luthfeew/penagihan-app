@@ -1,7 +1,7 @@
 <div>
     <article>
 
-        <x-heading title="Bayar" subtitle="Daftar tagihan bulan ini & yang belum lunas" />
+        <x-heading title="Bayar" subtitle="Daftar tagihan bulan ini & yang belum lunas" action="false" />
 
         <div class="grid">
             <div class="s12 m6">
