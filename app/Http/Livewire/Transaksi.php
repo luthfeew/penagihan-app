@@ -46,12 +46,14 @@ class Transaksi extends Component
         $this->nama = $transaksi->pelanggan->nama;
         $this->telepon = $transaksi->pelanggan->telepon;
         $this->iuran = $transaksi->pelanggan->paket->tarif;
-        $this->tambahan1 = $transaksi->pelanggan->tambahan1;
-        $this->biaya1 = $transaksi->pelanggan->biaya1;
-        $this->tambahan2 = $transaksi->pelanggan->tambahan2;
-        $this->biaya2 = $transaksi->pelanggan->biaya2;
-        $this->diskon = $transaksi->pelanggan->diskon;
+
+        $this->tambahan1 = $transaksi->tagihan->tambahan1;
+        $this->biaya1 = $transaksi->tagihan->biaya1;
+        $this->tambahan2 = $transaksi->tagihan->tambahan2;
+        $this->biaya2 = $transaksi->tagihan->biaya2;
+        $this->diskon = $transaksi->tagihan->diskon;
         $this->bulan = $transaksi->tagihan->bulan->locale('id')->isoFormat('MMMM Y');
+
         $this->tanggal = $transaksi->created_at->locale('id')->isoFormat('dddd, D MMMM Y');
         $this->totalTagihan = $transaksi->total_tagihan;
         $this->hashedId = Hashids::encode($transaksi->id);

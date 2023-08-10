@@ -5,7 +5,7 @@
 
         <x-dialog id="paket" action="{{ $action }}" title="Paket">
             <x-input name="nama" label="Nama Paket" />
-            <x-input name="tarif" label="Tarif" type="number" />
+            <x-input name="tarif" label="Tarif (Rp)" type="number" />
             <x-input name="keterangan" label="Keterangan" />
         </x-dialog>
 

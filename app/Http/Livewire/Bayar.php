@@ -83,11 +83,29 @@ class Bayar extends Component
     {
         $this->validate([
             'bayar' => 'required|numeric|min:' . $this->totalTagihan - $this->saldo,
+            'biaya1' => 'nullable|numeric',
+            'biaya2' => 'nullable|numeric',
+            'diskon' => 'nullable|numeric',
+            'tambahan1' => 'required_with:biaya1',
+            'tambahan2' => 'required_with:biaya2',
         ], [
-            'bayar.min' => 'Pembayaran kurang',
+            'bayar.required' => 'Pembayaran tidak boleh kosong!',
+            'bayar.numeric' => 'Pembayaran harus berupa angka!',
+            'bayar.min' => 'Pembayaran tidak boleh kurang dari ' . number_format($this->totalTagihan - $this->saldo, 0, ',', '.'),
+            'biaya1.numeric' => 'Biaya tambahan harus berupa angka!',
+            'biaya2.numeric' => 'Biaya tambahan harus berupa angka!',
+            'diskon.numeric' => 'Diskon harus berupa angka!',
+            'tambahan1.required_with' => 'Tambahan 1 tidak boleh kosong!',
+            'tambahan2.required_with' => 'Tambahan 2 tidak boleh kosong!',
         ]);
 
         $tagihan = Tagihan::find($this->tagihanId);
+        $tagihan->tambahan1 = $this->tambahan1;
+        $tagihan->biaya1 = $this->biaya1 ?? 0;
+        $tagihan->tambahan2 = $this->tambahan2;
+        $tagihan->biaya2 = $this->biaya2 ?? 0;
+        $tagihan->diskon = $this->diskon ?? 0;
+        $tagihan->total_tagihan = $this->totalTagihan;
         $tagihan->is_lunas = true;
         $tagihan->save();
 

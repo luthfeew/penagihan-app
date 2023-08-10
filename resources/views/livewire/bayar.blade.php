@@ -18,14 +18,10 @@
             <div class="divider"></div>
             <h5 class="small">Paket : {{ $paket }}</h5>
             <div class="grid">
-                <div class="s12 m6 middle-align right-align">
-                    <h6 class="small">Biaya Tambahan 1 : Rp. </h6>
-                </div>
-                <div class="s12 m6"><x-input name="biaya1" label="Tambahan 1" type="number" live="true" /></div>
-                <div class="s12 m6 middle-align right-align">
-                    <h6 class="small">Biaya Tambahan 2 : Rp. </h6>
-                </div>
-                <div class="s12 m6"><x-input name="biaya2" label="Tambahan 2" type="number" live="true" /></div>
+                <div class="s12 m6"><x-input name="tambahan1" label="Tambahan 1" /></div>
+                <div class="s12 m6"><x-input name="biaya1" label="Biaya 1 (Rp)" type="number" live="true" /></div>
+                <div class="s12 m6"><x-input name="tambahan2" label="Tambahan 2" /></div>
+                <div class="s12 m6"><x-input name="biaya2" label="Biaya 2 (Rp)" type="number" live="true" /></div>
                 <div class="s12 m6 middle-align right-align">
                     <h6 class="small">Diskon : Rp. </h6>
                 </div>
@@ -79,6 +75,9 @@
                     <td>
                         @php
                             $total = (int) $tagihan->pelanggan->paket->tarif + (int) $tagihan->pelanggan->biaya1 + (int) $tagihan->pelanggan->biaya2 - (int) $tagihan->pelanggan->diskon;
+                            if ($tagihan->total_tagihan != 0) {
+                                $total = $tagihan->total_tagihan;
+                            }
                         @endphp
                         @rupiah($total)
                     </td>
