@@ -1,14 +1,19 @@
 <div class="large-height no-scroll middle-align center-align">
-    <article>
-        <h5 class="center-align">
-            <i class="extra">router</i>
-            {{ config('app.name') }}
-        </h5>
+    <article class="round">
+        <div class="row">
+            <img class="round" src="{{ asset('img/logo.png') }}">
+            <div class="max">
+                <h5>{{ config('app.name') }}</h5>
+            </div>
+        </div>
         <div class="space"></div>
         <form wire:submit.prevent="authenticate">
-            <x-input name="email" label="Email" />
+            <x-input name="username" label="Username" />
             <x-input type="password" name="password" label="Password" />
-            <button class="responsive border" type="submit">Login</button>
+            <button class="responsive cyan" type="submit">
+                <i>login</i>
+                <span>Masuk</span>
+            </button>
         </form>
     </article>
 </div>

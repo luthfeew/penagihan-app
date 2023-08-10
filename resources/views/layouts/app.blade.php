@@ -15,7 +15,7 @@
     <livewire:styles />
 </head>
 
-<body class="light">
+<body class="light cyan">
     @include('layouts.navbar')
     <main class="responsive">
         <div class="space"></div>

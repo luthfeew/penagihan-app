@@ -17,10 +17,6 @@
         <i>group</i>
         <div>Pelanggan</div>
     </a>
-    {{-- <a href="/pengaduan" class="{{ request()->is('pengaduan') ? 'active' : '' }}">
-        <i>build</i>
-        <div>Pengaduan</div>
-    </a> --}}
     <a href="/pengaturan" class="{{ request()->is('pengaturan') ? 'active' : '' }}">
         <i>settings</i>
         <div>Pengaturan</div>
@@ -40,10 +36,6 @@
         <i>payments</i>
         <div>Bayar</div>
     </a>
-    {{-- <a href="/pengaduan" class="{{ request()->is('pengaduan') ? 'active' : '' }}">
-        <i>build</i>
-        <div>Pengaduan</div>
-    </a> --}}
     <a href="/pelanggan" class="{{ request()->is('pelanggan') ? 'active' : '' }}">
         <i>group</i>
         <div>Pelanggan</div>
@@ -58,11 +50,14 @@
     <button class="circle large transparent small-margin" onclick="ui('#nav-drawer')">
         <i>menu</i>
     </button>
-    <h5 class="max">{{ config('app.name') }}</h5>
-    <i class="extra circle margin">monetization_on</i>
+    <h5 class="max">
+        <div class="m l">Manajemen Tagihan {{ config('app.name') }}</div>
+        <div class="s">{{ config('app.name') }}</div>
+    </h5>
+    <img class="round" src="{{ asset('img/logo.png') }}">
+    <h5 class="small m l">CV. Media Computindo</h5>
 </nav>
 
-{{-- BELUM FIX --}}
 <dialog class="left" id="nav-drawer">
     <header class="fixed">
         <nav>
@@ -72,38 +67,12 @@
             <h5 class="max">{{ config('app.name') }}</h5>
         </nav>
     </header>
+    {{-- <a class="row round">
+        <i>person</i>
+        <span>Akun</span>
+    </a> --}}
     <a class="row round">
-        <i>inbox</i>
-        <span>Inbox</span>
-        <div class="max"></div>
-        <div>24</div>
-    </a>
-    <a class="row round">
-        <i>send</i>
-        <span>Outbox</span>
-        <div class="max"></div>
-        <div>100+</div>
-    </a>
-    <a class="row round">
-        <i>favorite</i>
-        <span>Favorities</span>
-    </a>
-    <a class="row round">
-        <i>delete</i>
-        <span>Trash</span>
-    </a>
-    <div class="small-divider"></div>
-    <div class="row">Labels</div>
-    <a class="row round">
-        <i>fiber_manual_record</i>
-        <span>Label</span>
-    </a>
-    <a class="row round">
-        <i>change_history</i>
-        <span>Label</span>
-    </a>
-    <a class="row round">
-        <i>stop</i>
-        <span>Label</span>
+        <i>logout</i>
+        <span>Logout</span>
     </a>
 </dialog>

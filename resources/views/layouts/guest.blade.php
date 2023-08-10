@@ -15,7 +15,7 @@
     <livewire:styles />
 </head>
 
-<body class="light fill">
+<body class="light cyan">
     <main class="responsive">
         {{ $slot }}
     </main>

@@ -1,7 +1,7 @@
 <div>
     <article>
 
-        <x-heading title="Transaksi" subtitle="Daftar transaksi" />
+        <x-heading title="Transaksi" subtitle="Daftar transaksi" action="false" />
 
         <div class="grid">
             <div class="s12 m6">

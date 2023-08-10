@@ -2,6 +2,22 @@
     <article>
         <div class="grid">
             <div class="s12 m6 l3">
+                <div class="field label suffix border">
+                    <select wire:model="rentang" class="active">
+                        <option value="1">Hari ini</option>
+                        <option value="2">Kemarin</option>
+                        <option value="3">7 Hari Terakhir</option>
+                        <option value="4">30 Hari Terakhir</option>
+                        <option value="5">Semua</option>
+                    </select>
+                    <label class="active">Rentang Waktu</label>
+                    <i>arrow_drop_down</i>
+                </div>
+            </div>
+            <div class="s12 m6 l3 m l"></div>
+            <div class="s12 m6 l3 m l"></div>
+            <div class="s12 m6 l3 m l"></div>
+            <div class="s12 m6 l3">
                 <article class="border">
                     <div class="row">
                         <i class="extra">person</i>

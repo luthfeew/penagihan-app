@@ -65,7 +65,7 @@
                     // convert to date
                     $d = \Carbon\Carbon::parse($c);
 
-                    $color = $d->isPast() ? 'yellow' : '';
+                    $color = $tagihan->is_lunas == false && $d->isPast() ? 'yellow' : '';
                 @endphp
                 <tr class="{{ $color }}">
                     <td>{{ $tagihans->firstItem() + $loop->iteration - 1 }}</td>

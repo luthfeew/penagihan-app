@@ -7,24 +7,20 @@ use Illuminate\Support\Facades\Auth;
 
 class Login extends Component
 {
-    public $email, $password;
+    public $username, $password;
 
     public function render()
     {
         return view('livewire.login')->layout('layouts.guest', ['title' => 'Login']);
     }
 
-    /**
-     * Handle an authentication attempt.
-     */
     public function authenticate()
     {
         $credentials = $this->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ], [
-            'email.required' => 'Email tidak boleh kosong!',
-            'email.email' => 'Email tidak valid!',
+            'username.required' => 'Username tidak boleh kosong!',
             'password.required' => 'Password tidak boleh kosong!',
         ]);
 
