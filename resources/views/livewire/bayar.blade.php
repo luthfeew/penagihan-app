@@ -1,5 +1,5 @@
 <div>
-    <article>
+    <article class="large-elevate">
 
         <x-heading title="Bayar" subtitle="Daftar tagihan bulan ini & yang belum lunas" action="false" />
 

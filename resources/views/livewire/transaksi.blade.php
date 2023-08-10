@@ -1,5 +1,5 @@
 <div>
-    <article>
+    <article class="large-elevate">
 
         <x-heading title="Transaksi" subtitle="Daftar transaksi" action="false" />
 

@@ -1,5 +1,5 @@
 <div>
-    <article>
+    <article class="large-elevate">
         <div class="grid">
             <div class="s12 m6 l3">
                 <div class="field label suffix border">
@@ -84,7 +84,7 @@
                                 }
                             @endphp
                             <h5 class="small">@rupiah($total)</h5>
-                            <p>Laba Pending</p>
+                            <p>Laba Tertahan</p>
                         </div>
                     </div>
                 </article>

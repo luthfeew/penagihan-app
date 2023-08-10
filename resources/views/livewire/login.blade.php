@@ -1,5 +1,5 @@
 <div class="large-height no-scroll middle-align center-align">
-    <article class="round">
+    <article class="round large-elevate">
         <div class="row">
             <img class="round" src="{{ asset('img/logo.png') }}">
             <div class="max">
