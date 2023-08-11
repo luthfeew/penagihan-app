@@ -83,7 +83,7 @@
             {{-- </div> --}}
             <div class="space"></div>
             <nav class="no-space center-align">
-                <button class="border no-round max vertical" onclick="printDiv('printableArea')" type="button">
+                <button class="border no-round max vertical" wire:click.prevent="cetak">
                     <i class="small">print</i>
                     <span>Cetak</span>
                 </button>

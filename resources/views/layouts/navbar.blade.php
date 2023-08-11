@@ -1,6 +1,7 @@
 <nav class="left m l">
     <div class="medium-space"></div>
     <div class="space"></div>
+    {{-- <img class="round" src="{{ asset('img/logo.png') }}"> --}}
     <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
         <i>home</i>
         <div>Beranda</div>
@@ -20,6 +21,14 @@
     <a href="/pengaturan" class="{{ request()->is('pengaturan') ? 'active' : '' }}">
         <i>settings</i>
         <div>Pengaturan</div>
+    </a>
+    {{-- <a href="/akun" class="{{ request()->is('akun') ? 'active' : '' }}">
+        <i>person</i>
+        <div>Akun</div>
+    </a> --}}
+    <a href="/logout" class="{{ request()->is('logout') ? 'active' : '' }}">
+        <i>logout</i>
+        <div>Logout</div>
     </a>
 </nav>
 
@@ -40,13 +49,34 @@
         <i>group</i>
         <div>Pelanggan</div>
     </a>
-    <a href="/pengaturan" class="{{ request()->is('pengaturan') ? 'active' : '' }}">
+    {{-- <a href="/pengaturan" class="{{ request()->is('pengaturan') ? 'active' : '' }}">
         <i>settings</i>
         <div>Pengaturan</div>
+    </a> --}}
+    <a onclick="ui('#nav-drawer')">
+        <i>more_vert</i>
+        <div>Lainnya</div>
     </a>
 </nav>
 
+{{-- <header class="responsive fixed cyan">
+    <nav>
+        <h5 class="max">
+            <div class="s">Manajemen Tagihan</div>
+            <div class="m l">Manajemen Tagihan {{ config('app.name') }}</div>
+        </h5>
+    </nav>
+</header> --}}
+
 <nav class="top">
+    <img class="round small-margin" src="{{ asset('img/logo.png') }}">
+    <h5 class="max">
+        <div class="m l">Manajemen Tagihan {{ config('app.name') }}</div>
+        <div class="s">{{ config('app.name') }}</div>
+    </h5>
+</nav>
+
+{{-- <nav class="top">
     <button class="circle large transparent small-margin" onclick="ui('#nav-drawer')">
         <i>menu</i>
     </button>
@@ -56,7 +86,7 @@
     </h5>
     <img class="round" src="{{ asset('img/logo.png') }}">
     <h5 class="small m l">CV. Media Computindo</h5>
-</nav>
+</nav> --}}
 
 <dialog class="left" id="nav-drawer">
     <header class="fixed">
@@ -64,14 +94,18 @@
             <button class="transparent circle large" onclick="ui('#nav-drawer')">
                 <i>close</i>
             </button>
-            <h5 class="max">{{ config('app.name') }}</h5>
+            {{-- <h5 class="max">{{ config('app.name') }}</h5> --}}
         </nav>
     </header>
-    {{-- <a class="row round">
+    <a href="/pengaturan" class="row round">
+        <i>settings</i>
+        <span>Pengaturan</span>
+    </a>
+    <a href="/akun" class="row round">
         <i>person</i>
         <span>Akun</span>
-    </a> --}}
-    <a class="row round">
+    </a>
+    <a href="/logout" class="row round">
         <i>logout</i>
         <span>Logout</span>
     </a>

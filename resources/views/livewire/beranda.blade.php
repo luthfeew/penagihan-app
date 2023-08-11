@@ -1,5 +1,5 @@
 <div>
-    <article class="large-elevate">
+    <article class="large-elevate large-padding">
         <div class="grid">
             <div class="s12 m6 l3">
                 <div class="field label suffix border">

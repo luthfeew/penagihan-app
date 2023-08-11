@@ -7,14 +7,19 @@ use Livewire\WithPagination;
 use App\Models\Tagihan;
 use App\Models\Transaksi as TransaksiModel;
 use Vinkla\Hashids\Facades\Hashids;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
 
 class Transaksi extends Component
 {
     use WithPagination;
 
-    public $paket, $nama, $telepon, $iuran, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $bulan, $tanggal, $totalTagihan;
+    public $paket, $nama, $telepon, $iuran, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $bulan, $tanggal, $tanggalRaw, $totalTagihan;
     public $hashedId;
     public $action, $cari = '';
+    public static $printerName = "test";
+    public static $lineCharacterLength = 32;
 
     public function render()
     {
@@ -55,6 +60,7 @@ class Transaksi extends Component
         $this->bulan = $transaksi->tagihan->bulan->locale('id')->isoFormat('MMMM Y');
 
         $this->tanggal = $transaksi->created_at->locale('id')->isoFormat('dddd, D MMMM Y');
+        $this->tanggalRaw = $transaksi->created_at;
         $this->totalTagihan = $transaksi->total_tagihan;
         $this->hashedId = Hashids::encode($transaksi->id);
 
@@ -65,7 +71,7 @@ class Transaksi extends Component
     public function whatsapp()
     {
         $message = "
-        *RT_RW_NET*
+        RT RW NET
 
         NOTA ELEKTRONIK
         " . config('app.url') . "/nota/$this->hashedId
@@ -90,7 +96,7 @@ class Transaksi extends Component
         Terima Kasih
 
         SUPPORT BY :
-        PT.RT_RW_NET
+        CV. Media Computindo
         ";
 
         // telepon remove all non numeric characters, if first character is 0, replace with 62
@@ -109,5 +115,71 @@ class Transaksi extends Component
 
         // redirect with open new tab
         $this->dispatchBrowserEvent('openNewTab', ['url' => $url]);
+    }
+
+    public function cetak()
+    {
+        try {
+            $connector = new WindowsPrintConnector(self::$printerName);
+            $printer = new Printer($connector);
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("RT RW NET\n");
+            $printer->text("NOTA PEMBAYARAN\n");
+            $printer->text(self::doubleLine());
+
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text(self::dualColumnText('Waktu', $this->tanggalRaw->format('d-m-Y H:i')));
+            $printer->text(self::dualColumnText('Tagihan Bulan', $this->bulan));
+            $printer->text(self::dualColumnText('Jenis Paket', $this->paket));
+            $printer->text(self::dualColumnText('Harga Paket', 'Rp. ' . number_format($this->iuran, 0, ',', '.')));
+            $printer->text(self::dualColumnText('Biaya 1', $this->tambahan1 . ' @ Rp. ' . number_format($this->biaya1, 0, ',', '.')));
+            $printer->text(self::dualColumnText('Biaya 2', $this->tambahan2 . ' @ Rp. ' . number_format($this->biaya2, 0, ',', '.')));
+            $printer->text(self::dualColumnText('Diskon', 'Rp. ' . number_format($this->diskon, 0, ',', '.')));
+            $printer->text(self::dualColumnText('Saldo Terpakai', '- Rp. ' . number_format($this->iuran + $this->biaya1 + $this->biaya2 - $this->diskon - $this->totalTagihan, 0, ',', '.')));
+            $printer->text(self::dualColumnText('Total Biaya', 'Rp. ' . number_format($this->totalTagihan, 0, ',', '.')));
+            $printer->text(self::dualColumnText('Keterangan', 'LUNAS'));
+            $printer->text(self::line());
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("Terima Kasih\n");
+            $printer->text(self::doubleLine());
+
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("SUPPORT BY:\n");
+            $printer->text("CV. Media Computindo\n");
+            $printer->feed();
+
+            $printer->cut();
+            $printer->close();
+
+            $this->dispatchBrowserEvent('closeDialog', ['id' => 'nota']);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Berhasil mencetak nota.']);
+        } catch (\Exception $e) {
+            // $this->dispatchBrowserEvent('showToast', ['message' => 'Gagal mencetak nota.']);
+        }
+    }
+
+    public static function dualColumnText(string $left, string $right): string
+    {
+        $left = substr($left, 0, 22);
+
+        $remaining = self::$lineCharacterLength - (strlen($left) + strlen($right));
+
+        if ($remaining <= 0) {
+            $remaining = 1;
+        }
+
+        return $left . str_repeat(' ', $remaining) . $right . "\n";
+    }
+
+    public static function doubleLine(): string
+    {
+        return str_repeat('=', self::$lineCharacterLength) . "\n";
+    }
+
+    public static function line(): string
+    {
+        return str_repeat('-', self::$lineCharacterLength) . "\n";
     }
 }
