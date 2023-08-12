@@ -1,6 +1,6 @@
-<nav class="left m l">
+<nav class="left m l large-elevate">
     <div class="medium-space"></div>
-    <div class="space"></div>
+    <div class="medium-space"></div>
     {{-- <img class="round" src="{{ asset('img/logo.png') }}"> --}}
     <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
         <i>home</i>
@@ -20,7 +20,7 @@
     </a>
     <a href="/pengaturan" class="{{ request()->is('pengaturan') ? 'active' : '' }}">
         <i>settings</i>
-        <div>Pengaturan</div>
+        <div>Master</div>
     </a>
     {{-- <a href="/akun" class="{{ request()->is('akun') ? 'active' : '' }}">
         <i>person</i>
@@ -59,7 +59,7 @@
     </a>
 </nav>
 
-{{-- <header class="responsive fixed cyan">
+{{-- <header class="responsive fixed cyan large-elevate">
     <nav>
         <h5 class="max">
             <div class="s">Manajemen Tagihan</div>
@@ -68,12 +68,9 @@
     </nav>
 </header> --}}
 
-<nav class="top">
+<nav class="top medium-elevate">
     <img class="round small-margin" src="{{ asset('img/logo.png') }}">
-    <h5 class="max">
-        <div class="m l">Manajemen Tagihan {{ config('app.name') }}</div>
-        <div class="s">{{ config('app.name') }}</div>
-    </h5>
+    <h5 class="max bold">{{ config('app.name') }}</h5>
 </nav>
 
 {{-- <nav class="top">
@@ -99,7 +96,7 @@
     </header>
     <a href="/pengaturan" class="row round">
         <i>settings</i>
-        <span>Pengaturan</span>
+        <span>Master</span>
     </a>
     <a href="/akun" class="row round">
         <i>person</i>

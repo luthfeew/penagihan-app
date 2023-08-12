@@ -6,27 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? 'Page Title' }} | {{ config('app.name') }}</title>
-     <link href="https://cdn.jsdelivr.net/npm/beercss@3.2.13/dist/cdn/beer.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/beercss@3.2.13/dist/cdn/beer.min.css" rel="stylesheet">
     <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.2.13/dist/cdn/beer.min.js"></script>
     <script type="module"
-        src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.0.1/dist/cdn/material-dynamic-colors.min.js"></script> 
-        {{-- @vite(['resources/css/app.css', 'resources/js/app.js'])  --}}
+        src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.0.1/dist/cdn/material-dynamic-colors.min.js"></script> --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
     <livewire:styles />
 </head>
 
-<body class="light cyan">
+<body class="light surface-variant">
     @include('layouts.navbar')
     <main class="responsive">
-        <div class="space"></div>
+        <div class="medium-space"></div>
         {{ $slot }}
-        
+        <div class="medium-space"></div>
     </main>
-    
+
     <div class="toast" id="toast">
         <i>done</i>
         <span></span>
     </div>
+
     <script>
         window.addEventListener('showDialog', event => {
             document.getElementById(event.detail.id).show();
@@ -44,7 +45,7 @@
             window.open(event.detail.url, '_blank');
         })
     </script>
-    
+
     @stack('scripts')
     <livewire:scripts />
 </body>

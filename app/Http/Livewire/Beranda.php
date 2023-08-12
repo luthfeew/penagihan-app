@@ -41,7 +41,7 @@ class Beranda extends Component
                 $akhir = null;
                 break;
         }
-        
+
 
         return view('livewire.beranda', [
             'pelanggan' => Pelanggan::count(),
@@ -61,8 +61,9 @@ class Beranda extends Component
             'tagihans' => Tagihan::where('is_lunas', false)->when($awal && $akhir, function ($query) use ($awal, $akhir) {
                 return $query->whereBetween('created_at', [$awal, $akhir]);
             })->get(),
-            'chart' => Tagihan::selectRaw("MONTH(bulan) as bbb,sum(total_tagihan) as tag")->whereRaw("is_lunas = true AND bulan LIKE '2023%'")->groupBy('bbb')->orderBy('bbb','asc')->get(),
-            
+            // 'chart' => Tagihan::selectRaw("MONTH(bulan) as bbb,sum(total_tagihan) as tag")->whereRaw("is_lunas = true AND bulan LIKE '2023%'")->groupBy('bbb')->orderBy('bbb','asc')->get(),
+
+
         ])->layoutData(['title' => 'Beranda']);
     }
 }

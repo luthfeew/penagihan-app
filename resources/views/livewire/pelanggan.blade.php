@@ -1,5 +1,5 @@
 <div>
-    <article class="large-elevate">
+    <article class="large-elevate large-padding">
 
         <x-heading title="Pelanggan" subtitle="Daftar pelanggan" />
 
