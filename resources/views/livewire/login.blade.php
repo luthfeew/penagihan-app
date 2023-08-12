@@ -8,11 +8,11 @@
             {{-- </div> --}}
         </nav>
         {{-- </div> --}}
-        <div class="space"></div>
+        <div class="medium-space"></div>
         <form wire:submit.prevent="authenticate">
             <x-input name="username" label="Username" />
             <x-input type="password" name="password" label="Password" />
-            <button class="responsive cyan" type="submit">
+            <button class="responsive" type="submit">
                 <i>login</i>
                 <span>Masuk</span>
             </button>
