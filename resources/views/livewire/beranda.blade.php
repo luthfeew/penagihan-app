@@ -158,8 +158,8 @@
                 }
             });
         </script>
-        @endpush
+        @endpush --}}
 
 
     </article>
-</div> --}}
+</div>

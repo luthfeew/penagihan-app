@@ -20,7 +20,7 @@
     </a>
     <a href="/pengaturan" class="{{ request()->is('pengaturan') ? 'active' : '' }}">
         <i>settings</i>
-        <div>Master</div>
+        <div>Pengaturan</div>
     </a>
     {{-- <a href="/akun" class="{{ request()->is('akun') ? 'active' : '' }}">
         <i>person</i>
@@ -91,12 +91,12 @@
             <button class="transparent circle large" onclick="ui('#nav-drawer')">
                 <i>close</i>
             </button>
-            {{-- <h5 class="max">{{ config('app.name') }}</h5> --}}
+            <h5 class="max bold">{{ config('app.name') }}</h5>
         </nav>
     </header>
     <a href="/pengaturan" class="row round">
         <i>settings</i>
-        <span>Master</span>
+        <span>Pengaturan</span>
     </a>
     <a href="/akun" class="row round">
         <i>person</i>
