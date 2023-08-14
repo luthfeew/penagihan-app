@@ -65,11 +65,11 @@ class Bayar extends Component
         $this->tagihanId = $id;
         $this->bulan = $tagihan->bulan->locale('id')->isoFormat('MMMM Y');
         $this->tagihan = $pelanggan->paket->tarif;
-        $this->tambahan1 = $pelanggan->tambahan1;
-        $this->biaya1 = $pelanggan->biaya1;
-        $this->tambahan2 = $pelanggan->tambahan2;
-        $this->biaya2 = $pelanggan->biaya2;
-        $this->diskon = $pelanggan->diskon;
+        $this->tambahan1 = $tagihan->tambahan1;
+        $this->biaya1 = $tagihan->biaya1;
+        // $this->tambahan2 = $tagihan->tambahan2;
+        // $this->biaya2 = $tagihan->biaya2;
+        $this->diskon = $tagihan->diskon;
         $this->totalTagihan = (int) $this->tagihan + (int) $this->biaya1 + (int) $this->biaya2 - (int) $this->diskon;
     }
 
@@ -80,55 +80,72 @@ class Bayar extends Component
         $this->dispatchBrowserEvent('showDialog', ['id' => 'bayar']);
     }
 
+    public function edit($id)
+    {
+        $this->getData($id);
+        $this->action = 'edit';
+        $this->dispatchBrowserEvent('showDialog', ['id' => 'bayar']);
+    }
+
     public function simpan()
     {
-        $this->validate([
-            'bayar' => 'required|numeric|min:' . $this->totalTagihan - $this->saldo,
-            'biaya1' => 'nullable|numeric',
-            'biaya2' => 'nullable|numeric',
-            'diskon' => 'nullable|numeric',
-            'tambahan1' => 'required_with:biaya1',
-            'tambahan2' => 'required_with:biaya2',
-        ], [
-            'bayar.required' => 'Pembayaran tidak boleh kosong!',
-            'bayar.numeric' => 'Pembayaran harus berupa angka!',
-            'bayar.min' => 'Pembayaran tidak boleh kurang dari ' . number_format($this->totalTagihan - $this->saldo, 0, ',', '.'),
-            'biaya1.numeric' => 'Biaya tambahan harus berupa angka!',
-            'biaya2.numeric' => 'Biaya tambahan harus berupa angka!',
-            'diskon.numeric' => 'Diskon harus berupa angka!',
-            'tambahan1.required_with' => 'Tambahan 1 tidak boleh kosong!',
-            'tambahan2.required_with' => 'Tambahan 2 tidak boleh kosong!',
-        ]);
+        if ($this->action == 'edit') {
+            $this->validate([
+                'biaya1' => 'nullable|numeric',
+                'diskon' => 'nullable|numeric',
+                'tambahan1' => 'required_with:biaya1',
+            ], [
+                'biaya1.numeric' => 'Biaya tambahan harus berupa angka!',
+                'diskon.numeric' => 'Diskon harus berupa angka!',
+                'tambahan1.required_with' => 'Tambahan 1 tidak boleh kosong!',
+            ]);
+            $tagihan = Tagihan::find($this->tagihanId);
+            $tagihan->tagihan = $this->tagihan;
+            $tagihan->tambahan1 = $this->tambahan1;
+            $tagihan->biaya1 = $this->biaya1 ?? 0;
+            $tagihan->diskon = $this->diskon ?? 0;
+            $tagihan->total_tagihan = $this->totalTagihan;
+            $tagihan->save();
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Tagihan berhasil diubah']);
+        } else {
+            $this->validate([
+                'bayar' => 'required|numeric|min:' . $this->totalTagihan - $this->saldo,
+            ], [
+                'bayar.required' => 'Bayar tidak boleh kosong!',
+                'bayar.numeric' => 'Bayar harus berupa angka!',
+                'bayar.min' => 'Bayar tidak boleh kurang dari ' . number_format($this->totalTagihan - $this->saldo, 0, ',', '.'),
+            ]);
 
-        $tagihan = Tagihan::find($this->tagihanId);
-        $tagihan->tambahan1 = $this->tambahan1;
-        $tagihan->biaya1 = $this->biaya1 ?? 0;
-        $tagihan->tambahan2 = $this->tambahan2;
-        $tagihan->biaya2 = $this->biaya2 ?? 0;
-        $tagihan->diskon = $this->diskon ?? 0;
-        $tagihan->total_tagihan = $this->totalTagihan;
-        $tagihan->is_lunas = true;
-        $tagihan->save();
+            $tagihan = Tagihan::find($this->tagihanId);
+            $tagihan->tambahan1 = $this->tambahan1;
+            $tagihan->biaya1 = $this->biaya1 ?? 0;
+            $tagihan->tambahan2 = $this->tambahan2;
+            $tagihan->biaya2 = $this->biaya2 ?? 0;
+            $tagihan->diskon = $this->diskon ?? 0;
+            $tagihan->total_tagihan = $this->totalTagihan;
+            $tagihan->is_lunas = true;
+            $tagihan->save();
 
-        $pelanggan = Tagihan::find($this->tagihanId)->pelanggan;
-        $pelanggan->saldo->saldo = $this->kembali;
-        $pelanggan->saldo->save();
+            $pelanggan = Tagihan::find($this->tagihanId)->pelanggan;
+            $pelanggan->saldo->saldo = $this->kembali;
+            $pelanggan->saldo->save();
 
-        Transaksi::create([
-            'tagihan_id' => $this->tagihanId,
-            'pelanggan_id' => $this->pelangganId,
-            'saldo_id' => $pelanggan->saldo->id,
-            'kode' => 'BYR',
-            'total_tagihan' => $this->totalTagihan - $this->saldo,
-            'bayar' => $this->bayar,
-            'lebih' => $this->kembali,
-            'jenis' => $this->jenis,
-        ]);
+            Transaksi::create([
+                'tagihan_id' => $this->tagihanId,
+                'pelanggan_id' => $this->pelangganId,
+                'saldo_id' => $pelanggan->saldo->id,
+                'kode' => 'BYR',
+                'total_tagihan' => $this->totalTagihan - $this->saldo,
+                'bayar' => $this->bayar,
+                'lebih' => $this->kembali,
+                'jenis' => $this->jenis,
+            ]);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Tagihan berhasil dibayar']);
+        }
 
         $this->reset();
         $this->resetErrorBag();
         $this->dispatchBrowserEvent('closeDialog', ['id' => 'bayar']);
-        $this->dispatchBrowserEvent('showToast', ['message' => 'Tagihan berhasil dibayar']);
     }
 
     public function notif($id)

@@ -13,55 +13,79 @@
             </div>
         </div>
 
-        <x-dialog id="bayar" action="{{ $action }}" title="Tagihan" submit="Bayar">
+        <x-dialog id="bayar" action="{{ $action }}" title="Tagihan"
+            submit="{{ $action == 'edit' ? 'Simpan' : 'Bayar' }}">
             <h5 class="small">Nama : {{ $nama }} ({{ $telepon }})</h5>
             <div class="divider"></div>
-            <h5 class="small">Tagihan Bulan : {{ $bulan }}</h5>
-            <h5 class="small">Paket : {{ $paket }}</h5>
-            <div class="grid">
-                <div class="s12 m6"><x-input name="tambahan1" label="Tambahan" /></div>
-                <div class="s12 m6"><x-input name="biaya1" label="Biaya (Rp)" type="number" live="true" /></div>
-                {{-- <div class="s12 m6"><x-input name="tambahan2" label="Tambahan 2" /></div>
-                <div class="s12 m6"><x-input name="biaya2" label="Biaya 2 (Rp)" type="number" live="true" /></div> --}}
-                <div class="s12 m6 middle-align right-align">
-                    <h6 class="small">Diskon : Rp. </h6>
+            <h5 class="small">Tagihan : {{ $bulan }}</h5>
+
+            @if ($action == 'edit')
+                <h5 class="small">Paket : {{ $paket }}</h5>
+                <div class="grid">
+                    <div class="s12 m6"><x-input name="tambahan1" label="Tambahan" /></div>
+                    <div class="s12 m6"><x-input name="biaya1" label="Biaya (Rp)" type="number" live="true" />
+                    </div>
+                    <div class="s12 m6 middle-align right-align">
+                        <h6 class="small">Diskon : Rp. </h6>
+                    </div>
+                    <div class="s12 m6"><x-input name="diskon" label="Diskon" type="number" live="true" /></div>
                 </div>
-                <div class="s12 m6"><x-input name="diskon" label="Diskon" type="number" live="true" /></div>
-            </div>
-            <h5 class="small right-align">Total Tagihan : @rupiah($totalTagihan)</h5>
-            @if ($saldo != 0)
-                <h5 class="small right-align">- (saldo) @rupiah($saldo)</h5>
-                <h5 class="small right-align">= @rupiah($totalTagihan - $saldo)</h5>
+            @else
+                <div class="row">
+                    <h5 class="small max">Paket</h5>
+                    <h5 class="small">{{ $paket }}</h5>
+                </div>
+                @if ($biaya1 != null)
+                    <div class="row">
+                        <h5 class="small max">Tambahan</h5>
+                        <h5 class="small">@ @rupiah($biaya1)</h5>
+                    </div>
+                @endif
+                @if ($diskon != null)
+                <div class="row">
+                    <h5 class="small max">Diskon</h5>
+                    <h5 class="small">@ @rupiah($diskon)</h5>
+                </div>
+                @endif
             @endif
-            <div class="divider"></div>
-            <div class="grid">
-                <div class="s12 m6 middle-align right-align">
-                    <h6 class="small">Bayar : Rp. </h6>
-                </div>
-                <div class="s12 m6">
-                    <x-input name="bayar" label="Bayar" type="number" live="true" />
-                </div>
-                <div class="s12 m12 right-align">
-                    <div class="field middle-align">
-                        <nav class="right-align">
-                            <label class="radio">
-                                <input type="radio" wire:model="jenis" value="tunai">
-                                <span>Tunai</span>
-                            </label>
-                            <label class="radio">
-                                <input type="radio" wire:model="jenis" value="transfer">
-                                <span>Transfer</span>
-                            </label>
-                        </nav>
+
+            <h5 class="small right-align">Total Tagihan : @rupiah($totalTagihan)</h5>
+
+            @if ($action == 'bayar')
+                @if ($saldo != 0)
+                    <h5 class="small right-align">- (saldo) @rupiah($saldo)</h5>
+                    <h5 class="small right-align">= @rupiah($totalTagihan - $saldo)</h5>
+                @endif
+                <div class="divider"></div>
+                <div class="grid">
+                    <div class="s12 m6 middle-align right-align">
+                        <h6 class="small">Bayar : Rp. </h6>
+                    </div>
+                    <div class="s12 m6">
+                        <x-input name="bayar" label="Bayar" type="number" live="true" />
+                    </div>
+                    <div class="s12 m12 right-align">
+                        <div class="field middle-align">
+                            <nav class="right-align">
+                                <label class="radio">
+                                    <input type="radio" wire:model="jenis" value="tunai">
+                                    <span>Tunai</span>
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" wire:model="jenis" value="transfer">
+                                    <span>Transfer</span>
+                                </label>
+                            </nav>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <h5 class="small right-align">Kembali (saldo) : @if ($kembali > 0)
-                    @rupiah($kembali)
-                @else
-                    -
-                @endif
-            </h5>
+                <h5 class="small right-align">Kembali (saldo) : @if ($kembali > 0)
+                        @rupiah($kembali)
+                    @else
+                        -
+                    @endif
+                </h5>
+            @endif
         </x-dialog>
 
         <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Total Tagihan', 'Lunas', '']">
@@ -115,6 +139,9 @@
                                 </a>
                             @endif
                             @if ($tagihan->is_lunas == false)
+                                <a wire:click="edit({{ $tagihan->id }})">
+                                    <i>edit</i>
+                                </a>
                                 <a wire:click="bayar({{ $tagihan->id }})">
                                     <i>payments</i>
                                 </a>
