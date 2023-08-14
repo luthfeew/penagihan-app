@@ -1,5 +1,5 @@
 <dialog class="{{ $size }}" id="{{ $id }}" wire:ignore.self>
-    <header class="fixed">
+    <header class="fixed secondary-container">
         <div class="space"></div>
         <h5 class="no-margin">{{ Str::ucfirst($action) }} {{ $title }}</h5>
         <div class="space"></div>

@@ -19,6 +19,7 @@ class Transaksi extends Model
         'bayar',
         'lebih',
         'kurang',
+        'jenis',
     ];
 
     public function tagihan()

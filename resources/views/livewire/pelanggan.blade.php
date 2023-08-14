@@ -33,11 +33,11 @@
                         helper="{{ $tglRegister ? '' : '(opsional, jika kosong otomatis hari ini)' }}" />
                 </div>
                 <div class="s12 m4">
-                    <x-input name="tglTagihan" label="Tanggal Tagihan" type="number" />
+                    <x-input name="tglTagihan" label="Tanggal Tagihan" type="number" helper="{{ $tglTagihan ? '' : '(opsional, jika kosong otomatis hari ini)' }}" />
                 </div>
-                <div class="s12 m4">
+                {{-- <div class="s12 m4">
                     <x-input name="tglIsolir" label="Tanggal Isolir" type="number" helper="(opsional)" />
-                </div>
+                </div> --}}
                 <div class="s12 m6">
                     <x-select name="paket" label="Paket" :options="$listPaket"
                         empty="Paket belum ada, silakan tambah melalui pengaturan." />
@@ -54,19 +54,19 @@
             <div class="space"></div>
             <div class="grid">
                 <div class="s12 m6">
-                    <x-input name="tambahan1" label="Tambahan 1" />
+                    <x-input name="tambahan1" label="Tambahan" />
                 </div>
                 <div class="s12 m6">
-                    <x-input name="biaya1" label="Biaya 1" type="number" />
+                    <x-input name="biaya1" label="Biaya (Rp)" type="number" />
                 </div>
-                <div class="s12 m6">
+                {{-- <div class="s12 m6">
                     <x-input name="tambahan2" label="Tambahan 2" />
                 </div>
                 <div class="s12 m6">
                     <x-input name="biaya2" label="Biaya 2" type="number" />
-                </div>
+                </div> --}}
                 <div class="s12 m6">
-                    <x-input name="diskon" label="Diskon" type="number" />
+                    <x-input name="diskon" label="Diskon (Rp)" type="number" />
                 </div>
             </div>
             <div class="row">
@@ -126,7 +126,7 @@
                     <td>{{ $pelanggan->telepon }}</td>
                     <td>{{ $pelanggan->area->nama }}</td>
                     <td>{{ $pelanggan->tanggal_tagihan }}</td>
-                    <td>@rupiah($pelanggan->paket->tarif)</td>
+                    <td>@rupiah($pelanggan->paket->tarif + $pelanggan->biaya1 - $pelanggan->diskon)</td>
                     <td>
                         <nav class="right-align">
                             <a wire:click="lihat({{ $pelanggan->id }})">

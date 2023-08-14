@@ -14,14 +14,15 @@
         </div>
 
         <x-dialog id="bayar" action="{{ $action }}" title="Tagihan" submit="Bayar">
-            <h5 class="small">Nama : {{ $nama }}</h5>
+            <h5 class="small">Nama : {{ $nama }} ({{ $telepon }})</h5>
             <div class="divider"></div>
+            <h5 class="small">Tagihan Bulan : {{ $bulan }}</h5>
             <h5 class="small">Paket : {{ $paket }}</h5>
             <div class="grid">
-                <div class="s12 m6"><x-input name="tambahan1" label="Tambahan 1" /></div>
-                <div class="s12 m6"><x-input name="biaya1" label="Biaya 1 (Rp)" type="number" live="true" /></div>
-                <div class="s12 m6"><x-input name="tambahan2" label="Tambahan 2" /></div>
-                <div class="s12 m6"><x-input name="biaya2" label="Biaya 2 (Rp)" type="number" live="true" /></div>
+                <div class="s12 m6"><x-input name="tambahan1" label="Tambahan" /></div>
+                <div class="s12 m6"><x-input name="biaya1" label="Biaya (Rp)" type="number" live="true" /></div>
+                {{-- <div class="s12 m6"><x-input name="tambahan2" label="Tambahan 2" /></div>
+                <div class="s12 m6"><x-input name="biaya2" label="Biaya 2 (Rp)" type="number" live="true" /></div> --}}
                 <div class="s12 m6 middle-align right-align">
                     <h6 class="small">Diskon : Rp. </h6>
                 </div>
@@ -39,6 +40,20 @@
                 </div>
                 <div class="s12 m6">
                     <x-input name="bayar" label="Bayar" type="number" live="true" />
+                </div>
+                <div class="s12 m12 right-align">
+                    <div class="field middle-align">
+                        <nav class="right-align">
+                            <label class="radio">
+                                <input type="radio" wire:model="jenis" value="tunai">
+                                <span>Tunai</span>
+                            </label>
+                            <label class="radio">
+                                <input type="radio" wire:model="jenis" value="transfer">
+                                <span>Transfer</span>
+                            </label>
+                        </nav>
+                    </div>
                 </div>
             </div>
             <h5 class="small right-align">Kembali (saldo) : @if ($kembali > 0)

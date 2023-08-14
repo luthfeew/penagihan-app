@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? 'Page Title' }} | {{ config('app.name') }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}">
     {{-- <link href="https://cdn.jsdelivr.net/npm/beercss@3.2.13/dist/cdn/beer.min.css" rel="stylesheet">
     <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.2.13/dist/cdn/beer.min.js"></script>
     <script type="module"
@@ -21,6 +22,11 @@
         <div class="medium-space"></div>
         {{ $slot }}
         <div class="medium-space"></div>
+        <footer class="center bottom surface-variant">
+            <div class="small-divider"></div>
+            <div class="center-align">&copy; Copyright <span class="bold">CV. Media Computindo</span>. All Rights
+                Reserved</div>
+        </footer>
     </main>
 
     <div class="toast" id="toast">

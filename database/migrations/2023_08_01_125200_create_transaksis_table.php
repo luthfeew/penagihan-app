@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('bayar', 65, 0)->default(0);
             $table->decimal('lebih', 65, 0)->default(0);
             $table->decimal('kurang', 65, 0)->default(0);
+            $table->enum('jenis', ['tunai', 'transfer'])->default('tunai');
             $table->timestamps();
             $table->softDeletes();
         });

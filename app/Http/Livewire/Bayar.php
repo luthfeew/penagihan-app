@@ -14,6 +14,7 @@ class Bayar extends Component
     public $tagihanId, $pelangganId, $bulan, $tagihan, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $totalTagihan, $isLunas;
     public $cari = '', $action;
     public $nama, $telepon, $paket, $saldo, $bayar, $kembali;
+    public $jenis = 'tunai';
 
     public function render()
     {
@@ -121,6 +122,7 @@ class Bayar extends Component
             'total_tagihan' => $this->totalTagihan - $this->saldo,
             'bayar' => $this->bayar,
             'lebih' => $this->kembali,
+            'jenis' => $this->jenis,
         ]);
 
         $this->reset();
