@@ -16,17 +16,17 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'nama' => 'Admin',
+            'nama' => 'User Demo',
             // 'email' => 'admin@admin.com',
-            'username' => 'admin',
-            'password' => Hash::make('admin'),
+            'username' => 'demo',
+            'password' => Hash::make('12345679'),
         ]);
 
-        // $this->call([
-        //     PaketSeeder::class,
-        //     AreaSeeder::class,
-        // ]);
+        $this->call([
+            PaketSeeder::class,
+            AreaSeeder::class,
+        ]);
 
-        // \App\Models\Pelanggan::factory(10)->create();
+        \App\Models\Pelanggan::factory(10)->create();
     }
 }

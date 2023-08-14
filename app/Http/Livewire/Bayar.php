@@ -55,22 +55,25 @@ class Bayar extends Component
     {
         $this->reset();
         $this->resetErrorBag();
+
         $tagihan = Tagihan::find($id);
         $pelanggan = Tagihan::find($id)->pelanggan;
+
         $this->pelangganId = $pelanggan->id;
         $this->telepon = $pelanggan->telepon;
         $this->nama = $pelanggan->nama;
         $this->saldo = $pelanggan->saldo->saldo;
         $this->paket = $pelanggan->paket->nama . ' @ Rp. ' . number_format($pelanggan->paket->tarif, 0, ',', '.');
+        $this->tagihan = $pelanggan->paket->tarif;
+
         $this->tagihanId = $id;
         $this->bulan = $tagihan->bulan->locale('id')->isoFormat('MMMM Y');
-        $this->tagihan = $pelanggan->paket->tarif;
         $this->tambahan1 = $tagihan->tambahan1;
         $this->biaya1 = $tagihan->biaya1;
         // $this->tambahan2 = $tagihan->tambahan2;
         // $this->biaya2 = $tagihan->biaya2;
         $this->diskon = $tagihan->diskon;
-        $this->totalTagihan = (int) $this->tagihan + (int) $this->biaya1 + (int) $this->biaya2 - (int) $this->diskon;
+        $this->totalTagihan = $this->tagihan + $this->biaya1 + $this->biaya2 - $this->diskon;
     }
 
     public function bayar($id)
@@ -90,24 +93,30 @@ class Bayar extends Component
     public function simpan()
     {
         if ($this->action == 'edit') {
+
             $this->validate([
-                'biaya1' => 'nullable|numeric',
-                'diskon' => 'nullable|numeric',
                 'tambahan1' => 'required_with:biaya1',
+                'biaya1' => 'nullable|numeric|min:1',
+                'diskon' => 'nullable|numeric|min:1',
             ], [
-                'biaya1.numeric' => 'Biaya tambahan harus berupa angka!',
-                'diskon.numeric' => 'Diskon harus berupa angka!',
-                'tambahan1.required_with' => 'Tambahan 1 tidak boleh kosong!',
+                'tambahan1.required_with' => 'Harus diisi jika ada biaya tambahan!',
+                'biaya1.numeric' => 'Harus berupa angka!',
+                'biaya1.min' => 'Tidak boleh kurang dari 1!',
+                'diskon.numeric' => 'Harus berupa angka!',
+                'diskon.min' => 'Tidak boleh kurang dari 1!',
             ]);
+
             $tagihan = Tagihan::find($this->tagihanId);
             $tagihan->tagihan = $this->tagihan;
-            $tagihan->tambahan1 = $this->tambahan1;
-            $tagihan->biaya1 = $this->biaya1 ?? 0;
-            $tagihan->diskon = $this->diskon ?? 0;
+            $tagihan->tambahan1 = $this->tambahan1 ?? null;
+            $tagihan->biaya1 = $this->biaya1 ?? null;
+            $tagihan->diskon = $this->diskon ?? null;
             $tagihan->total_tagihan = $this->totalTagihan;
             $tagihan->save();
+
             $this->dispatchBrowserEvent('showToast', ['message' => 'Tagihan berhasil diubah']);
         } else {
+
             $this->validate([
                 'bayar' => 'required|numeric|min:' . $this->totalTagihan - $this->saldo,
             ], [
@@ -119,8 +128,8 @@ class Bayar extends Component
             $tagihan = Tagihan::find($this->tagihanId);
             $tagihan->tambahan1 = $this->tambahan1;
             $tagihan->biaya1 = $this->biaya1 ?? 0;
-            $tagihan->tambahan2 = $this->tambahan2;
-            $tagihan->biaya2 = $this->biaya2 ?? 0;
+            // $tagihan->tambahan2 = $this->tambahan2;
+            // $tagihan->biaya2 = $this->biaya2 ?? 0;
             $tagihan->diskon = $this->diskon ?? 0;
             $tagihan->total_tagihan = $this->totalTagihan;
             $tagihan->is_lunas = true;
@@ -140,11 +149,12 @@ class Bayar extends Component
                 'lebih' => $this->kembali,
                 'jenis' => $this->jenis,
             ]);
+
             $this->dispatchBrowserEvent('showToast', ['message' => 'Tagihan berhasil dibayar']);
         }
 
-        $this->reset();
-        $this->resetErrorBag();
+        // $this->reset();
+        // $this->resetErrorBag();
         $this->dispatchBrowserEvent('closeDialog', ['id' => 'bayar']);
     }
 
@@ -152,46 +162,42 @@ class Bayar extends Component
     {
         $this->getData($id);
 
-        $message = "
-        *RT_RW_NET*
-
-        Yth. Bapak / Ibu
-        $this->nama
-        $this->telepon
-
-        *PEMBERITAHUAN*
-        Pelanggan yang terhormat, kami sampaikan detail tagihan internet anda saat ini
-        Tagihan Bulan : $this->bulan
-        Jenis Paket : $this->paket
-        " . ($this->tambahan1 ? "Biaya $this->tambahan1 : Rp. " . number_format($this->biaya1, 0, ',', '.') . "" : "") . "
-        " . ($this->tambahan2 ? "Biaya $this->tambahan2 : Rp. " . number_format($this->biaya2, 0, ',', '.') . "" : "") . "
-        Diskon : Rp. " . number_format($this->diskon, 0, ',', '.') . "
-        Sisa Saldo : Rp. " . number_format($this->saldo, 0, ',', '.') . "
-        Total Tagihan - Sisa Saldo : Rp. " . number_format($this->totalTagihan - $this->saldo, 0, ',', '.') . "
-        Ket : BELUM TERBAYAR
-
-        TERIMA KASIH
-
-        SUPPORT BY :
-        PT.RT_RW_NET
-        ";
-
-        // telepon remove all non numeric characters, if first character is 0, replace with 62
-        $telepon = preg_replace('/\D/', '', $this->telepon);
-        if (substr($telepon, 0, 1) == '0') {
-            $telepon = '62' . substr($telepon, 1);
+        $msg = "*" . config('app.name') . "*\n\n";
+        $msg .= "Yth. Bapak / Ibu\n";
+        $msg .= $this->nama . "\n";
+        $msg .= $this->telepon . "\n\n";
+        $msg .= "*PEMBERITAHUAN*\n";
+        $msg .= "Pelanggan yang terhormat, kami sampaikan detail tagihan internet anda saat ini\n";
+        $msg .= "Tagihan Bulan : " . $this->bulan . "\n";
+        $msg .= "Jenis Paket : " . $this->paket . "\n";
+        if ($this->tambahan1) {
+            $msg .= "Biaya " . $this->tambahan1 . " : Rp. " . number_format($this->biaya1, 0, ',', '.') . "\n";
         }
+        if ($this->diskon) {
+            $msg .= "Diskon : Rp. " . number_format($this->diskon, 0, ',', '.') . "\n";
+        }
+        if ($this->saldo) {
+            $msg .= "Sisa Saldo : Rp. " . number_format($this->saldo, 0, ',', '.') . "\n";
+        }
+        if ($this->totalTagihan - $this->saldo > 0) {
+            $msg .= "Total Tagihan : Rp. " . number_format($this->totalTagihan - $this->saldo, 0, ',', '.') . "\n";
+        }
+        $msg .= "Ket : BELUM TERBAYAR\n\n";
+        $msg .= "TERIMA KASIH\n\n";
+        $msg .= "SUPPORT BY :\n";
+        $msg .= "CV. Media Computindo";
+
+        // telepon hanya angka, hilangkan karakter selain angka, jika diawali 0 maka ganti dengan 62
+        $telepon = preg_replace('/[^0-9]/', '', $this->telepon);
+        $telepon = preg_replace('/^0/', '62', $telepon);
 
         // encode message
-        $message = urlencode($message);
+        $urlEncodedMessage = urlencode($msg);
 
-        // remove ++++++++ from urlencoded message
-        $urlEncodedMessage = str_replace('++++++++', '', $message);
-
-        // send message
+        // kirim pesan
         $url = "https://wa.me/$telepon?text=$urlEncodedMessage";
 
-        // redirect with open new tab
+        // redirect dengan buka tab baru
         $this->dispatchBrowserEvent('openNewTab', ['url' => $url]);
     }
 }

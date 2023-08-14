@@ -88,18 +88,15 @@
             </div>
             <div class="space"></div>
             <div class="grid">
-                <div class="s12 m6">
-                    <x-input name="alamat" label="Alamat" />
-                </div>
                 {{-- <div class="s12 m6">
                     <x-input name="koordinat" label="Koordinat" />
                 </div> --}}
                 <div class="s12 m6">
                     @if ($foto)
-                        <img class="responsive small" src="{{ $foto->temporaryUrl() }}">
+                        <img class="responsive large" src="{{ $foto->temporaryUrl() }}">
                     @else
                         @if ($oldFoto)
-                            <img class="responsive small" src="{{ $oldFoto }}">
+                            <img class="responsive large" src="{{ $oldFoto }}">
                         @endif
                     @endif
                     <div class="field label prefix border">
@@ -114,6 +111,9 @@
                             <span class="helper" wire:loading.remove wire:target="foto">Ukuran maksimal 1MB</span>
                         @enderror
                     </div>
+                </div>
+                <div class="s12 m6">
+                    <x-input name="alamat" label="Alamat" />
                 </div>
             </div>
         </x-dialog>

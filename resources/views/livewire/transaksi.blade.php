@@ -40,28 +40,31 @@
                 <div class="s6 bold right-align">@rupiah($iuran)</div>
             </div>
             <div class="small-divider"></div>
-            <div class="grid">
-                <div class="s6 middle-align">Biaya Tambahan</div>
-                <div class="s6 bold right-align">
-                    {{ $tambahan1 }} @ @rupiah($biaya1)<br>
-                    {{ $tambahan2 }} @ @rupiah($biaya2)
+            @if ($biaya1 != null)
+                <div class="grid">
+                    <div class="s6 middle-align">{{ $tambahan1 }}</div>
+                    <div class="s6 bold right-align">@rupiah($biaya1)</div>
                 </div>
-            </div>
-            <div class="small-divider"></div>
-            <div class="grid">
-                <div class="s6 middle-align">Diskon</div>
-                <div class="s6 bold right-align">
-                    @rupiah($diskon)
+                <div class="small-divider"></div>
+            @endif
+            @if ($diskon != null)
+                <div class="grid">
+                    <div class="s6 middle-align">Diskon</div>
+                    <div class="s6 bold right-align">
+                        @rupiah($diskon)
+                    </div>
                 </div>
-            </div>
-            <div class="small-divider"></div>
-            <div class="grid">
-                <div class="s6 middle-align">Saldo Terpakai</div>
-                <div class="s6 bold right-align">
-                    - @rupiah($iuran + $biaya1 + $biaya2 - $diskon - $totalTagihan)
+                <div class="small-divider"></div>
+            @endif
+            @if ($iuran + $biaya1 + $biaya2 - $diskon - $totalTagihan != 0)
+                <div class="grid">
+                    <div class="s6 middle-align">Saldo Terpakai</div>
+                    <div class="s6 bold right-align">
+                        - @rupiah($iuran + $biaya1 + $biaya2 - $diskon - $totalTagihan)
+                    </div>
                 </div>
-            </div>
-            <div class="small-divider"></div>
+                <div class="small-divider"></div>
+            @endif
             <div class="grid">
                 <div class="s6 middle-align">Bulan</div>
                 <div class="s6 bold right-align">

@@ -29,6 +29,7 @@ class Tagihan extends Model
         'biaya1' => 'integer',
         'biaya2' => 'integer',
         'diskon' => 'integer',
+        'total_tagihan' => 'integer',
     ];
 
     public function pelanggan()

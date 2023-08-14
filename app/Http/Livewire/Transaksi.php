@@ -70,50 +70,43 @@ class Transaksi extends Component
 
     public function whatsapp()
     {
-        $message = "
-        RT RW NET
+        // NOTA ELEKTRONIK
+        // " . config('app.url') . "/nota/$this->hashedId
 
-        NOTA ELEKTRONIK
-        " . config('app.url') . "/nota/$this->hashedId
-
-        Yth. Bapak / Ibu
-        $this->nama
-        $this->telepon
-
-        *PEMBAYARAN*
-        Tanggal Bayar : $this->tanggal
-
-        Tagihan Bulan : $this->bulan
-        Jenis Paket : $this->paket
-        Harga Paket : Rp. " . number_format($this->iuran, 0, ',', '.') . "
-        Biaya 1 : $this->tambahan1 @ Rp. " . number_format($this->biaya1, 0, ',', '.') . "
-        Biaya 2 : $this->tambahan2 @ Rp. " . number_format($this->biaya2, 0, ',', '.') . "
-        Diskon : Rp. " . number_format($this->diskon, 0, ',', '.') . "
-        Saldo Terpakai : - Rp. " . number_format($this->iuran + $this->biaya1 + $this->biaya2 - $this->diskon - $this->totalTagihan, 0, ',', '.') . "
-        Total Biaya : Rp. " . number_format($this->totalTagihan, 0, ',', '.') . "
-        Keterangan : LUNAS
-
-        Terima Kasih
-
-        SUPPORT BY :
-        CV. Media Computindo
-        ";
-
-        // telepon remove all non numeric characters, if first character is 0, replace with 62
-        $telepon = preg_replace('/\D/', '', $this->telepon);
-        if (substr($telepon, 0, 1) == '0') {
-            $telepon = '62' . substr($telepon, 1);
+        $msg = "*" . config('app.name') . "*\n\n";
+        $msg .= "Yth. Bapak / Ibu\n";
+        $msg .= $this->nama . "\n";
+        $msg .= $this->telepon . "\n\n";
+        $msg .= "*PEMBAYARAN*\n";
+        $msg .= "Waktu Bayar : " . $this->tanggal . "\n\n";
+        $msg .= "Tagihan Bulan : " . $this->bulan . "\n";
+        $msg .= "Jenis Paket : " . $this->paket . "\n";
+        if ($this->tambahan1) {
+            $msg .= "Biaya " . $this->tambahan1 . " : Rp. " . number_format($this->biaya1, 0, ',', '.') . "\n";
         }
+        if ($this->diskon) {
+            $msg .= "Diskon : Rp. " . number_format($this->diskon, 0, ',', '.') . "\n";
+        }
+        if ($this->iuran + $this->biaya1 + $this->biaya2 - $this->diskon - $this->totalTagihan > 0) {
+            $msg .= "Saldo Terpakai : - Rp. " . number_format($this->iuran + $this->biaya1 + $this->biaya2 - $this->diskon - $this->totalTagihan, 0, ',', '.') . "\n";
+        }
+        $msg .= "Total Tagihan : Rp. " . number_format($this->totalTagihan, 0, ',', '.') . "\n";
+        $msg .= "Keterangan : LUNAS\n\n";
+        $msg .= "TERIMA KASIH\n\n";
+        $msg .= "SUPPORT BY :\n";
+        $msg .= "CV. Media Computindo";
 
-        $urlEncodedMessage = urlencode($message);
+        // telepon hanya angka, hilangkan karakter selain angka, jika diawali 0 maka ganti dengan 62
+        $telepon = preg_replace('/[^0-9]/', '', $this->telepon);
+        $telepon = preg_replace('/^0/', '62', $telepon);
 
-        // remove ++++++++ from urlencoded message
-        $urlEncodedMessage = str_replace('++++++++', '', $urlEncodedMessage);
+        // encode message
+        $urlEncodedMessage = urlencode($msg);
 
-        // send message using wa.me
+        // kirim pesan
         $url = "https://wa.me/$telepon?text=$urlEncodedMessage";
 
-        // redirect with open new tab
+        // redirect dengan buka tab baru
         $this->dispatchBrowserEvent('openNewTab', ['url' => $url]);
     }
 
@@ -156,7 +149,7 @@ class Transaksi extends Component
             $this->dispatchBrowserEvent('closeDialog', ['id' => 'nota']);
             $this->dispatchBrowserEvent('showToast', ['message' => 'Berhasil mencetak nota.']);
         } catch (\Exception $e) {
-            // $this->dispatchBrowserEvent('showToast', ['message' => 'Gagal mencetak nota.']);
+            $this->dispatchBrowserEvent('showToast', ['message' => 'Gagal mencetak nota.']);
         }
     }
 
