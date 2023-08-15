@@ -11,6 +11,38 @@
                     <label>Cari</label>
                 </div>
             </div>
+            <div class="s12 m3">
+                <div class="field label suffix border">
+                    <select wire:model="filterBulan" class="active">
+                        <option value="0">-</option>
+                        <option value="01">Januari</option>
+                        <option value="02">Februari</option>
+                        <option value="03">Maret</option>
+                        <option value="04">April</option>
+                        <option value="05">Mei</option>
+                        <option value="06">Juni</option>
+                        <option value="07">Juli</option>
+                        <option value="08">Agustus</option>
+                        <option value="09">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                    </select>
+                    <label class="active">Bulan</label>
+                    <i>arrow_drop_down</i>
+                </div>
+            </div>
+            <div class="s12 m3">
+                <div class="field label suffix border">
+                    <select wire:model="filterTahun" class="active">
+                        @for ($i = 2023; $i <= date('Y'); $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                    <label class="active">Tahun</label>
+                    <i>arrow_drop_down</i>
+                </div>
+            </div>
         </div>
 
         <x-dialog id="nota" action="{{ $action }}" title="Nota Pembayaran">
@@ -83,7 +115,6 @@
                 <div class="s6">Keterangan</div>
                 <div class="s6 bold right-align">L U N A S</div>
             </div>
-            {{-- </div> --}}
             <div class="space"></div>
             <nav class="no-space center-align">
                 <button class="border no-round max vertical" wire:click.prevent="cetak">
@@ -98,14 +129,16 @@
             <div class="space"></div>
         </x-dialog>
 
-        <x-table :headers="['#', 'Nama', 'Paket', 'Area', 'Nominal', 'Waktu', '']">
+        <x-table :headers="['#', 'Nama', 'Telepon', 'Paket', 'Area', 'Nominal', 'Metode', 'Waktu', '']">
             @forelse($transaksis as $transaksi)
                 <tr>
                     <td>{{ $transaksis->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $transaksi->pelanggan->nama }}</td>
+                    <td>{{ $transaksi->pelanggan->telepon }}</td>
                     <td>{{ $transaksi->pelanggan->paket->nama }}</td>
                     <td>{{ $transaksi->pelanggan->area->nama }}</td>
                     <td>@rupiah($transaksi->total_tagihan)</td>
+                    <td>{{ $transaksi->jenis }}</td>
                     <td>{{ $transaksi->created_at }}</td>
                     <td>
                         <nav class="right-align">
@@ -117,7 +150,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="text-center">Tidak ada data</td>
+                    <td colspan="9" class="text-center">Tidak ada data</td>
                 </tr>
             @endforelse
         </x-table>

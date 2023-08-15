@@ -12,14 +12,24 @@ class Bayar extends Component
     use WithPagination;
 
     public $tagihanId, $pelangganId, $bulan, $tagihan, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $totalTagihan, $isLunas;
-    public $cari = '', $action;
+    public $cari = '', $status = 'semua', $action;
     public $nama, $telepon, $paket, $saldo, $bayar, $kembali;
     public $jenis = 'tunai';
 
     public function render()
     {
         $raw = Tagihan::whereHas('pelanggan', function ($query) {
-            $query->where('nama', 'like', '%' . $this->cari . '%');
+            $query->where('nama', 'like', '%' . $this->cari . '%')
+                ->orWhere('telepon', 'like', '%' . $this->cari . '%')
+                ->orWhere('alamat', 'like', '%' . $this->cari . '%')
+                ->orWhereHas('area', function ($query) {
+                    $query->where('nama', 'like', '%' . $this->cari . '%');
+                })
+                ->orWhere('tanggal_tagihan', 'like', '%' . $this->cari . '%');
+        })->when($this->status == 'lunas', function ($query) {
+            return $query->where('is_lunas', true);
+        })->when($this->status == 'belum', function ($query) {
+            return $query->where('is_lunas', false);
         })->paginate(20);
         $sorted = $raw->getCollection()->sortBy(function ($tagihan) {
             return [

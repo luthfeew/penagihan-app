@@ -4,76 +4,107 @@
             <div class="s12 m6 l3">
                 <div class="field label suffix border">
                     <select wire:model="rentang" class="active">
-                        <option value="1">Hari ini</option>
-                        <option value="2">Kemarin</option>
-                        <option value="3">7 Hari Terakhir</option>
-                        <option value="4">30 Hari Terakhir</option>
-                        <option value="5">Semua</option>
+                        <option value="semua">Semua</option>
+                        <option value="custom">Custom</option>
                     </select>
                     <label class="active">Rentang Waktu</label>
                     <i>arrow_drop_down</i>
                 </div>
             </div>
-            <div class="s12 m6 l3 m l"></div>
-            <div class="s12 m6 l3 m l"></div>
-            <div class="s12 m6 l3 m l"></div>
-            <div class="s12 m6 l3">
-                <article class="border">
-                    <div class="row">
-                        <i class="extra">person</i>
-                        <div class="max">
-                            <h5>{{ $pelanggan }}</h5>
-                            <p>Pelanggan</p>
-                        </div>
+            @if ($rentang == 'custom')
+                <div class="s12 m6 l3">
+                    <div class="field label suffix border">
+                        <select wire:model="bulan" class="active">
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                        <label class="active">Bulan</label>
+                        <i>arrow_drop_down</i>
                     </div>
-                </article>
-            </div>
-            <div class="s12 m6 l3">
-                <article class="border">
-                    <div class="row">
-                        <i class="extra">person_add</i>
-                        <div class="max">
-                            <h5>{{ $pelangganBaru }}</h5>
-                            <p>Pelanggan Baru</p>
-                        </div>
+                </div>
+                <div class="s12 m6 l3">
+                    <div class="field label suffix border">
+                        <select wire:model="tahun" class="active">
+                            @for ($i = 2023; $i <= date('Y'); $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                        <label class="active">Tahun</label>
+                        <i>arrow_drop_down</i>
                     </div>
-                </article>
-            </div>
+                </div>
+            @else
+                <div class="s12 m6 l3 m l"></div>
+                <div class="s12 m6 l3 m l"></div>
+            @endif
+            <div class="s12 m6 l3 m l"></div>
             <div class="s12 m6 l3">
-                <article class="border">
+                <article class="border green2">
                     <div class="row">
                         <i class="extra">done</i>
                         <div class="max">
-                            <h5>{{ $lunas }}</h5>
-                            <p>Lunas Bayar</p>
+                            <h5 class="bold">{{ $lunas }}</h5>
+                            <p class="bold">Lunas Bayar</p>
                         </div>
                     </div>
                 </article>
             </div>
             <div class="s12 m6 l3">
-                <article class="border">
+                <article class="border red2">
                     <div class="row">
                         <i class="extra">block</i>
                         <div class="max">
-                            <h5>{{ $belumLunas }}</h5>
-                            <p>Belum Bayar</p>
+                            <h5 class="bold">{{ $belumLunas }}</h5>
+                            <p class="bold">Belum Bayar</p>
                         </div>
                     </div>
                 </article>
             </div>
             <div class="s12 m6 l3">
-                <article class="border">
+                <article class="border blue2">
+                    <div class="row">
+                        <i class="extra">person</i>
+                        <div class="max">
+                            <h5 class="bold">{{ $pelanggan }}</h5>
+                            <p class="bold">Pelanggan</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="s12 m6 l3">
+                <article class="border blue2">
+                    <div class="row">
+                        <i class="extra">person_add</i>
+                        <div class="max">
+                            <h5 class="bold">{{ $pelangganBaru }}</h5>
+                            <p class="bold">Pelanggan Baru</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="s12 m6 l3">
+                <article class="border green2">
                     <div class="row">
                         <i class="extra">attach_money</i>
                         <div class="max">
-                            <h5 class="small">@rupiah($laba)</h5>
-                            <p>Laba</p>
+                            <h5 class="small bold">@rupiah($laba)</h5>
+                            <p class="bold">Laba</p>
                         </div>
                     </div>
                 </article>
             </div>
             <div class="s12 m6 l3">
-                <article class="border">
+                <article class="border red2">
                     <div class="row">
                         <i class="extra">money_off</i>
                         <div class="max">
@@ -83,8 +114,8 @@
                                     $total += $tagihan->pelanggan->paket->tarif + $tagihan->pelanggan->biaya1 + $tagihan->pelanggan->biaya2 - $tagihan->pelanggan->diskon;
                                 }
                             @endphp
-                            <h5 class="small">@rupiah($total)</h5>
-                            <p>Laba Tertahan</p>
+                            <h5 class="small bold">@rupiah($total)</h5>
+                            <p class="bold">Laba Tertahan</p>
                         </div>
                     </div>
                 </article>

@@ -17,17 +17,41 @@ class Transaksi extends Component
 
     public $paket, $nama, $telepon, $iuran, $tambahan1, $biaya1, $tambahan2, $biaya2, $diskon, $bulan, $tanggal, $tanggalRaw, $totalTagihan;
     public $hashedId;
-    public $action, $cari = '';
+    public $action, $cari = '', $filterBulan = 0, $filterTahun;
     public static $printerName = "test";
     public static $lineCharacterLength = 32;
 
+    public function mount()
+    {
+        $this->filterTahun = date('Y');
+    }
+
     public function render()
     {
+        if ($this->filterBulan != 0) {
+            $awal = $this->filterTahun . '-' . $this->filterBulan . '-01';
+            $akhir = $this->filterTahun . '-' . $this->filterBulan . '-31';
+        } else {
+            $awal = $this->filterTahun . '-01-01';
+            $akhir = $this->filterTahun . '-12-31';
+        }
+
         return view('livewire.transaksi', [
-            'transaksis' => TransaksiModel::withTrashed()->whereHas('pelanggan', function ($query) {
-                $query->where('nama', 'like', '%' . $this->cari . '%')
-                    ->orWhere('telepon', 'like', '%' . $this->cari . '%');
-            })->orderBy('created_at', 'desc')->paginate(20),
+            'transaksis' => TransaksiModel::withTrashed()->when($this->filterBulan != 0, function ($query) use ($awal, $akhir) {
+                $query->whereBetween('created_at', [$awal, $akhir]);
+            })->where('total_tagihan', 'like', '%' . $this->cari . '%')
+                ->orWhere('created_at', 'like', '%' . $this->cari . '%')
+                // TODO: implement area & paket
+                // ->orWhereHas('area', function ($query) {
+                //     $query->where('nama', 'like', '%' . $this->cari . '%');
+                // })
+                // ->orWhereHas('paket', function ($query) {
+                //     $query->where('nama', 'like', '%' . $this->cari . '%');
+                // })
+                ->orWhereHas('pelanggan', function ($query) {
+                    $query->where('nama', 'like', '%' . $this->cari . '%')
+                        ->orWhere('telepon', 'like', '%' . $this->cari . '%');
+                })->orderBy('created_at', 'desc')->paginate(20),
         ])->layoutData(['title' => 'Transaksi']);
     }
 
@@ -126,10 +150,15 @@ class Transaksi extends Component
             $printer->text(self::dualColumnText('Tagihan Bulan', $this->bulan));
             $printer->text(self::dualColumnText('Jenis Paket', $this->paket));
             $printer->text(self::dualColumnText('Harga Paket', 'Rp. ' . number_format($this->iuran, 0, ',', '.')));
-            $printer->text(self::dualColumnText('Biaya 1', $this->tambahan1 . ' @ Rp. ' . number_format($this->biaya1, 0, ',', '.')));
-            $printer->text(self::dualColumnText('Biaya 2', $this->tambahan2 . ' @ Rp. ' . number_format($this->biaya2, 0, ',', '.')));
-            $printer->text(self::dualColumnText('Diskon', 'Rp. ' . number_format($this->diskon, 0, ',', '.')));
-            $printer->text(self::dualColumnText('Saldo Terpakai', '- Rp. ' . number_format($this->iuran + $this->biaya1 + $this->biaya2 - $this->diskon - $this->totalTagihan, 0, ',', '.')));
+            if ($this->tambahan1) {
+                $printer->text(self::dualColumnText('Biaya 1', $this->tambahan1 . ' @ Rp. ' . number_format($this->biaya1, 0, ',', '.')));
+            }
+            if ($this->diskon) {
+                $printer->text(self::dualColumnText('Diskon', 'Rp. ' . number_format($this->diskon, 0, ',', '.')));
+            }
+            if ($this->iuran + $this->biaya1 + $this->biaya2 - $this->diskon - $this->totalTagihan > 0) {
+                $printer->text(self::dualColumnText('Saldo Terpakai', '- Rp. ' . number_format($this->iuran + $this->biaya1 + $this->biaya2 - $this->diskon - $this->totalTagihan, 0, ',', '.')));
+            }
             $printer->text(self::dualColumnText('Total Biaya', 'Rp. ' . number_format($this->totalTagihan, 0, ',', '.')));
             $printer->text(self::dualColumnText('Keterangan', 'LUNAS'));
             $printer->text(self::line());
@@ -141,6 +170,7 @@ class Transaksi extends Component
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->text("SUPPORT BY:\n");
             $printer->text("CV. Media Computindo\n");
+            // TODO: add CP
             $printer->feed();
 
             $printer->cut();

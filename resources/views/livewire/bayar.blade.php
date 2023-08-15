@@ -11,6 +11,17 @@
                     <label>Cari</label>
                 </div>
             </div>
+            <div class="s6 m3">
+                <div class="field label suffix border">
+                    <select wire:model="status" class="active">
+                        <option value="semua">Semua</option>
+                        <option value="lunas">Lunas</option>
+                        <option value="belum">Belum Lunas</option>
+                    </select>
+                    <label class="active">Status</label>
+                    <i>arrow_drop_down</i>
+                </div>
+            </div>
         </div>
 
         <x-dialog id="bayar" action="{{ $action }}" title="Tagihan"
@@ -42,10 +53,10 @@
                     </div>
                 @endif
                 @if ($diskon != null)
-                <div class="row">
-                    <h5 class="small max">Diskon</h5>
-                    <h5 class="small">@ @rupiah($diskon)</h5>
-                </div>
+                    <div class="row">
+                        <h5 class="small max">Diskon</h5>
+                        <h5 class="small">@ @rupiah($diskon)</h5>
+                    </div>
                 @endif
             @endif
 
@@ -88,7 +99,7 @@
             @endif
         </x-dialog>
 
-        <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Total Tagihan', 'Lunas', '']">
+        <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Alamat', 'Tgl Tagihan', 'Total Tagihan', 'Lunas', '']">
             @forelse ($tagihans as $tagihan)
                 @php
                     // get year and month from tagihan->bulan
@@ -107,6 +118,7 @@
                     <td>{{ $tagihan->pelanggan->nama }}</td>
                     <td>{{ $tagihan->pelanggan->telepon }}</td>
                     <td>{{ $tagihan->pelanggan->area->nama }}</td>
+                    <td>{{ $tagihan->pelanggan->alamat }}</td>
                     <td>
                         {{ $tagihan->pelanggan->tanggal_tagihan }}
                         {{ \Carbon\Carbon::parse($tagihan->bulan)->locale('id')->monthName }}
@@ -151,7 +163,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8">Tidak ada data.</td>
+                    <td colspan="9">Tidak ada data.</td>
                 </tr>
             @endforelse
         </x-table>

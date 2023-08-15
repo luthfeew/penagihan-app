@@ -26,7 +26,7 @@
                     <x-input name="nama" label="Nama" />
                 </div>
                 <div class="s12 m6">
-                    <x-input name="telepon" label="Nomor Telepon / WA" type="number" />
+                    <x-input name="telepon" label="Nomor Telepon / WA" />
                 </div>
                 <div class="s12 m4">
                     <x-input name="tglRegister" label="Tanggal Register" type="date" icon="today"
@@ -118,13 +118,14 @@
             </div>
         </x-dialog>
 
-        <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Tgl Tagihan', 'Tarif', '']">
+        <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Alamat', 'Tgl Tagihan', 'Tarif', '']">
             @forelse($pelanggans as $pelanggan)
                 <tr>
                     <td>{{ $pelanggans->firstItem() + $loop->iteration - 1 }}</td>
                     <td>{{ $pelanggan->nama }}</td>
                     <td>{{ $pelanggan->telepon }}</td>
                     <td>{{ $pelanggan->area->nama }}</td>
+                    <td>{{ $pelanggan->alamat }}</td>
                     <td>{{ $pelanggan->tanggal_tagihan }}</td>
                     <td>@rupiah($pelanggan->paket->tarif + $pelanggan->biaya1 - $pelanggan->diskon)</td>
                     <td>
@@ -143,7 +144,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7">Tidak ada data.</td>
+                    <td colspan="8">Tidak ada data.</td>
                 </tr>
             @endforelse
         </x-table>

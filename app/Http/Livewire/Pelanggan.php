@@ -47,6 +47,11 @@ class Pelanggan extends Component
         return view('livewire.pelanggan', [
             'pelanggans' => PelangganModel::where('nama', 'like', '%' . $this->cari . '%')
                 ->orWhere('telepon', 'like', '%' . $this->cari . '%')
+                ->orWhereHas('area', function ($query) {
+                    $query->where('nama', 'like', '%' . $this->cari . '%');
+                })
+                ->orWhere('alamat', 'like', '%' . $this->cari . '%')
+                ->orWhere('tanggal_tagihan', 'like', '%' . $this->cari . '%')
                 ->paginate(20),
         ])->layoutData(['title' => 'Pelanggan']);
     }

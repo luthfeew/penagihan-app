@@ -16,8 +16,8 @@ class PelangganFactory extends Factory
      */
     public function definition(): array
     {
-        // buat tanggal random antara hari ini sampai 28 hari ke belakang
-        $tanggal = $this->faker->dateTimeBetween('-28 days', 'now')->format('Y-m-d');
+        // buat tanggal random antara hari ini sampai 90 hari ke belakang
+        $tanggal = $this->faker->dateTimeBetween('-90 days', 'now')->format('Y-m-d');
 
         return [
             'nama' => $this->faker->name,
@@ -28,10 +28,10 @@ class PelangganFactory extends Factory
             'area_id' => rand(1, 10),
             'tambahan1' => $this->faker->word,
             'biaya1' => rand(1, 100) . '000',
-            'tambahan2' => $this->faker->word,
-            'biaya2' => rand(1, 100) . '000',
+            // 'tambahan2' => $this->faker->word,
+            // 'biaya2' => rand(1, 100) . '000',
             'diskon' => rand(1, 100) . '000',
-            'alamat' => $this->faker->address,
+            'alamat' => $this->faker->streetAddress,
             'created_at' => $tanggal,
         ];
     }
