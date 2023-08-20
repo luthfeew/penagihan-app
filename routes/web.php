@@ -9,6 +9,7 @@ use App\Http\Livewire\Pelanggan;
 use App\Http\Livewire\Pengaturan;
 use App\Http\Livewire\Nota;
 use App\Http\Livewire\Login;
+use App\Http\Livewire\Perawatan;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -36,4 +37,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pengaduan', Pengaduan::class);
     Route::get('/pelanggan', Pelanggan::class);
     Route::get('/pengaturan', Pengaturan::class);
+    Route::get('/perawatan', Perawatan::class);
 });

@@ -97,6 +97,7 @@
                     @else
                         @if ($oldFoto)
                             <img class="responsive large" src="{{ $oldFoto }}">
+                            {{-- <img class="responsive large" src="{{ asset('public/' . $oldFoto) }}"> --}}
                         @endif
                     @endif
                     <div class="field label prefix border">
@@ -118,7 +119,7 @@
             </div>
         </x-dialog>
 
-        <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Alamat', 'Tgl Tagihan', 'Tarif', '']">
+        <x-table :headers="['#', 'Nama', 'Telepon', 'Area', 'Alamat', 'Tgl Tagihan', 'Tarif', 'Tgl Register', '']">
             @forelse($pelanggans as $pelanggan)
                 <tr>
                     <td>{{ $pelanggans->firstItem() + $loop->iteration - 1 }}</td>
@@ -128,6 +129,7 @@
                     <td>{{ $pelanggan->alamat }}</td>
                     <td>{{ $pelanggan->tanggal_tagihan }}</td>
                     <td>@rupiah($pelanggan->paket->tarif + $pelanggan->biaya1 - $pelanggan->diskon)</td>
+                    <td>{{ $pelanggan->tanggal_register }}</td>
                     <td>
                         <nav class="right-align">
                             <a wire:click="lihat({{ $pelanggan->id }})">
@@ -144,7 +146,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8">Tidak ada data.</td>
+                    <td colspan="9">Tidak ada data.</td>
                 </tr>
             @endforelse
         </x-table>

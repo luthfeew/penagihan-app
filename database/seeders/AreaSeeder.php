@@ -12,8 +12,8 @@ class AreaSeeder extends Seeder
      */
     public function run(): void
     {
-        // buat 10 area dummy
-        for ($i = 1; $i <= 10; $i++) {
+        // buat 2 area dummy
+        for ($i = 1; $i <= 2; $i++) {
             \App\Models\Area::create([
                 'nama' => "Area $i",
             ]);

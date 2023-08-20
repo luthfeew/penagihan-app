@@ -52,6 +52,9 @@ class Pelanggan extends Component
                 })
                 ->orWhere('alamat', 'like', '%' . $this->cari . '%')
                 ->orWhere('tanggal_tagihan', 'like', '%' . $this->cari . '%')
+                ->orWhere('tanggal_register', 'like', '%' . $this->cari . '%')
+                // sort by tanggal register
+                ->orderBy('tanggal_register', 'desc')
                 ->paginate(20),
         ])->layoutData(['title' => 'Pelanggan']);
     }

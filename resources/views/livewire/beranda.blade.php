@@ -98,7 +98,7 @@
                         <i class="extra">attach_money</i>
                         <div class="max">
                             <h5 class="small bold">@rupiah($laba)</h5>
-                            <p class="bold">Laba</p>
+                            <p class="bold">Laba Kotor</p>
                         </div>
                     </div>
                 </article>
@@ -116,6 +116,17 @@
                             @endphp
                             <h5 class="small bold">@rupiah($total)</h5>
                             <p class="bold">Laba Tertahan</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="s12 m6 l3">
+                <article class="border green2">
+                    <div class="row">
+                        <i class="extra">attach_money</i>
+                        <div class="max">
+                            <h5 class="small bold">@rupiah($labaBersih)</h5>
+                            <p class="bold">Laba Bersih</p>
                         </div>
                     </div>
                 </article>

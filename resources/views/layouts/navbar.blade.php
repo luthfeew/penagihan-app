@@ -14,6 +14,10 @@
         <i>payments</i>
         <div>Bayar</div>
     </a>
+    <a href="/perawatan" class="{{ request()->is('perawatan') ? 'active' : '' }}">
+        <i>engineering</i>
+        <div>Perawatan</div>
+    </a>
     <a href="/pelanggan" class="{{ request()->is('pelanggan') ? 'active' : '' }}">
         <i>group</i>
         <div>Pelanggan</div>
@@ -94,14 +98,18 @@
             <h5 class="max bold">{{ config('app.name') }}</h5>
         </nav>
     </header>
+    <a href="/perawatan" class="row round">
+        <i>engineering</i>
+        <span>Perawatan</span>
+    </a>
     <a href="/pengaturan" class="row round">
         <i>settings</i>
         <span>Pengaturan</span>
     </a>
-    <a href="/akun" class="row round">
+    {{-- <a href="/akun" class="row round">
         <i>person</i>
         <span>Akun</span>
-    </a>
+    </a> --}}
     <a href="/logout" class="row round">
         <i>logout</i>
         <span>Logout</span>

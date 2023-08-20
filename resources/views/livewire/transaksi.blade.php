@@ -74,8 +74,8 @@
             <div class="small-divider"></div>
             @if ($biaya1 != null)
                 <div class="grid">
-                    <div class="s6 middle-align">{{ $tambahan1 }}</div>
-                    <div class="s6 bold right-align">@rupiah($biaya1)</div>
+                    <div class="s6 middle-align">Biaya Tambahan</div>
+                    <div class="s6 bold right-align">{{ $tambahan1 }} @ @rupiah($biaya1)</div>
                 </div>
                 <div class="small-divider"></div>
             @endif

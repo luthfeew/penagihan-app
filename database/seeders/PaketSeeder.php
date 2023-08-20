@@ -12,11 +12,11 @@ class PaketSeeder extends Seeder
      */
     public function run(): void
     {
-        // buat 10 paket dummy
-        for ($i = 1; $i <= 10; $i++) {
+        // buat 3 paket dummy
+        for ($i = 1; $i <= 3; $i++) {
             \App\Models\Paket::create([
                 'nama' => "Paket $i",
-                'tarif' => rand(50, 1000) . '000',
+                'tarif' => rand(10, 30) . '0000',
             ]);
         }
     }

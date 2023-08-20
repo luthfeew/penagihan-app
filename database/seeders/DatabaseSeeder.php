@@ -27,6 +27,6 @@ class DatabaseSeeder extends Seeder
             AreaSeeder::class,
         ]);
 
-        \App\Models\Pelanggan::factory(10)->create();
+        \App\Models\Pelanggan::factory(100)->create();
     }
 }

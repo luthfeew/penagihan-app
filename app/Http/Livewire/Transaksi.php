@@ -141,7 +141,7 @@ class Transaksi extends Component
             $printer = new Printer($connector);
 
             $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("RT RW NET\n");
+            $printer->text(config('app.name') . "\n");
             $printer->text("NOTA PEMBAYARAN\n");
             $printer->text(self::doubleLine());
 
@@ -151,7 +151,8 @@ class Transaksi extends Component
             $printer->text(self::dualColumnText('Jenis Paket', $this->paket));
             $printer->text(self::dualColumnText('Harga Paket', 'Rp. ' . number_format($this->iuran, 0, ',', '.')));
             if ($this->tambahan1) {
-                $printer->text(self::dualColumnText('Biaya 1', $this->tambahan1 . ' @ Rp. ' . number_format($this->biaya1, 0, ',', '.')));
+                $printer->text(self::dualColumnText('Tambahangm
+                g', $this->tambahan1 . ' @ Rp. ' . number_format($this->biaya1, 0, ',', '.')));
             }
             if ($this->diskon) {
                 $printer->text(self::dualColumnText('Diskon', 'Rp. ' . number_format($this->diskon, 0, ',', '.')));

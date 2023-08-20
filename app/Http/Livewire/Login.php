@@ -28,6 +28,6 @@ class Login extends Component
             return redirect()->intended('/');
         }
 
-        $this->dispatchBrowserEvent('showToast', ['message' => 'Email atau password salah!']);
+        $this->dispatchBrowserEvent('showToast', ['message' => 'Username atau password salah!']);
     }
 }
